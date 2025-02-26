@@ -8,8 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 public class ChannelLink {
@@ -28,8 +29,9 @@ public class ChannelLink {
     @JoinColumn(name = "channel_id", nullable = false)
     private Channel channel;
 
-    @Column(nullable = false)
-    private LocalDateTime dateCreated;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private Instant dateCreated;
 
     // Getters and Setters
 }

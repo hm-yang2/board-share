@@ -31,4 +31,28 @@ public class ChannelMember {
     private Instant dateCreated;
 
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public Instant getDateCreated() {
+        return dateCreated;
+    }
 }

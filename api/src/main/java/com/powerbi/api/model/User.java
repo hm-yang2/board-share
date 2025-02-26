@@ -24,5 +24,13 @@ public class User {
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant dateCreated;
+
     // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

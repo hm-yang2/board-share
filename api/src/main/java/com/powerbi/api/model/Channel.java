@@ -7,8 +7,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 public class Channel {
@@ -25,12 +26,45 @@ public class Channel {
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
-    @Column(nullable = false)
-    private LocalDateTime dateCreated;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private Instant dateCreated;
 
     // Getters and Setters
 
     public enum Visibility {
         PUBLIC, PRIVATE
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
+
+    public Instant getDateCreated() {
+        return dateCreated;
     }
 }

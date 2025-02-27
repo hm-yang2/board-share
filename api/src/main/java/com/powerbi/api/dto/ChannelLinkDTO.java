@@ -21,5 +21,37 @@ public class ChannelLinkDTO {
     private Instant dateCreated;
 
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getLinkId() {
+        return linkId;
+    }
+
+    public void setLinkId(Long linkId) {
+        this.linkId = linkId;
+    }
+
+    public Long getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
+    public Instant getDateCreated() {
+        return dateCreated;
+    }
 }
 

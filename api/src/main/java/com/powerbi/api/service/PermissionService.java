@@ -23,7 +23,8 @@ public class PermissionService {
             ChannelMemberRepository channelMemberRepository,
             ChannelAdminRepository channelAdminRepository,
             ChannelOwnerRepository channelOwnerRepository,
-            SuperUserRepository superUserRepository) {
+            SuperUserRepository superUserRepository
+    ) {
         this.channelMemberRepository = channelMemberRepository;
         this.channelAdminRepository = channelAdminRepository;
         this.channelOwnerRepository = channelOwnerRepository;
@@ -63,16 +64,16 @@ public class PermissionService {
 
     @Transactional
     public ChannelRole getUserRoleInChannel(User user, Long channelId) {
+        if (superUserRepository.existsByUserId(user.getId())) {
+            return ChannelRole.SUPER_USER;
+        }
+
         if (channelOwnerRepository.existsByUserIdAndChannelId(user.getId(), channelId)) {
             return ChannelRole.OWNER;
         }
 
         if (channelAdminRepository.existsByUserIdAndChannelId(user.getId(), channelId)) {
             return ChannelRole.ADMIN;
-        }
-
-        if (superUserRepository.existsByUserId(user.getId())) {
-            return ChannelRole.SUPER_USER;
         }
 
         if (channelMemberRepository.existsByUserIdAndChannelId(user.getId(), channelId)) {

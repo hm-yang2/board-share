@@ -11,4 +11,5 @@ public interface ChannelOwnerRepository extends JpaRepository<ChannelOwner, Long
     List<ChannelOwner> findByUserId(Long id);
     Optional<ChannelOwner> findByUserIdAndChannelId(Long userId, Long channelId);
     boolean existsByUserIdAndChannelId(Long userId, Long channelId);
+    long countByChannelId(Long channelId);
 }

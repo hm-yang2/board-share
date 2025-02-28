@@ -13,7 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 
 @Entity
-public class Group {
+public class Cluster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -8,7 +8,7 @@ import com.powerbi.api.model.User;
 import com.powerbi.api.repository.ChannelLinkRepository;
 import com.powerbi.api.repository.ChannelRepository;
 import com.powerbi.api.repository.LinkRepository;
-import com.powerbi.api.util.ChannelRole;
+import com.powerbi.api.model.ChannelRole;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;

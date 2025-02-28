@@ -7,7 +7,7 @@ import com.powerbi.api.repository.ChannelMemberRepository;
 import com.powerbi.api.repository.ChannelOwnerRepository;
 import com.powerbi.api.repository.ChannelRepository;
 import com.powerbi.api.repository.UserRepository;
-import com.powerbi.api.util.ChannelRole;
+import com.powerbi.api.model.ChannelRole;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

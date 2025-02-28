@@ -1,4 +1,4 @@
-package com.powerbi.api.util;
+package com.powerbi.api.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,7 +13,6 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-
     @Value("${jwt.secret}")
     private String secret;
 
@@ -55,6 +54,10 @@ public class JwtUtil {
 
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    public String getSecret() {
+        return secret;
     }
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {

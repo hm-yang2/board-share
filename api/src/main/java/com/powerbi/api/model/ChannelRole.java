@@ -1,4 +1,4 @@
-package com.powerbi.api.util;
+package com.powerbi.api.model;
 
 public enum ChannelRole {
     MEMBER,

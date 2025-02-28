@@ -1,10 +1,13 @@
 package com.powerbi.api.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.powerbi.api.util.JwtUtil;
+import com.powerbi.api.config.JwtUtil;
+import com.powerbi.api.model.User;
+import com.powerbi.api.service.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +32,6 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
     @Autowired
     private WebClient.Builder webClientBuilder;
 
@@ -53,6 +53,15 @@ public class AuthController {
     @Value("${jwt.refreshExpiration}")
     private int refreshExpiration;
 
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
+
+    @Autowired
+    public AuthController(UserService userService, JwtUtil jwtUtil) {
+        this.userService = userService;
+        this.jwtUtil = jwtUtil;
+    }
+
     @GetMapping("/login")
     public Map<String, String> login() {
         String azureUrl = String.format(
@@ -65,21 +74,26 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request, HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> login(
+            @RequestBody Map<String, String> request,
+            HttpServletResponse response
+    ) {
         String authorizationCode = request.get("code");
-        // Extract username from authorization code
-        String username = getAccessToken(authorizationCode);
+        // Extract email from authorization code
+        String email = null;
+        email = getAccessToken(authorizationCode);
 
-        if (username == null) {
+        if (email == null) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "No email found in token");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
 
         //Search for user, if user does not exist, create new user
+        User user = userService.createUser(email);
 
-        String token = jwtUtil.generateToken(username);
-        String refreshToken = jwtUtil.generateRefreshToken(username);
+        String token = jwtUtil.generateToken(email);
+        String refreshToken = jwtUtil.generateRefreshToken(email);
 
         // Set JWT tokens as cookies
         Cookie tokenCookie = new Cookie("token", token);
@@ -127,31 +141,46 @@ public class AuthController {
         throw new RuntimeException("Invalid refresh token");
     }
 
-    private String getAccessToken(String authorizationCode) {
-        // Exchange code for ID token
-        String tokenEndpoint = "https://login.microsoftonline.com/{tenant-id}/oauth2/v2.0/token";
+    /**
+     * Exchange microsoft authorization code for access token
+     * and get the email from the access token
+     * @param authorizationCode String
+     * @return email String
+     */
+    private String getAccessToken(@NotNull String authorizationCode) {
+        try {
+            // Exchange code for ID token
+            String tokenEndpoint = "https://login.microsoftonline.com/" + tenantId + "/oauth2/v2.0/token";
 
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("client_id", clientId);
-        params.add("client_secret", clientSecret);
-        params.add("code", authorizationCode);
-        params.add("redirect_uri", redirectUri);
-        params.add("grant_type", "authorization_code");
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("client_id", clientId);
+            params.add("client_secret", clientSecret);
+            params.add("code", authorizationCode);
+            params.add("redirect_uri", redirectUri);
+            params.add("grant_type", "authorization_code");
 
-        Map<String, Object> tokenResponse = webClientBuilder.build()
-                .post()
-                .uri(tokenEndpoint)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters.fromFormData(params))
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-                .block();
+            Map<String, Object> tokenResponse = webClientBuilder.build()
+                    .post()
+                    .uri(tokenEndpoint)
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .body(BodyInserters.fromFormData(params))
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                    })
+                    .block();
 
-        String idToken = (String) Objects.requireNonNull(tokenResponse).get("id_token");
+            String idToken = (String) Objects.requireNonNull(tokenResponse).get("id_token");
 
-        // Parse ID token to get username
-        DecodedJWT jwt = JWT.decode(idToken);
-        return jwt.getClaim("email").asString();
+            // Parse ID token to get username
+            Claims claims = Jwts.parser()
+                    .setSigningKey(jwtUtil.getSecret())  // Use the secret key you defined for signing/validation
+                    .parseClaimsJws(idToken)
+                    .getBody();
+
+            return claims.get("email", String.class);
+        } catch (WebClientException | NullPointerException e) {
+            return null;
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 package com.powerbi.api.controller;
 
-import com.powerbi.api.model.ChannelAdmin;
+import com.powerbi.api.model.ChannelMember;
 import com.powerbi.api.service.ChannelAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,37 +17,37 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/channeladmin")
-public class ChannelAdminController {
+@RequestMapping("/api/channelmember")
+public class ChannelMemberController {
     @Autowired
     private ChannelAdminService channelAdminService;
 
     @GetMapping("/{channelId}")
-    public ResponseEntity<List<ChannelAdmin>> getChannelAdmins(
+    public ResponseEntity<List<ChannelMember>> getChannelMembers(
             @AuthenticationPrincipal User user,
             @PathVariable Long channelId
     ) {
-        List<ChannelAdmin> admins = channelAdminService.getChannelAdmins(user.getUsername(), channelId);
-        return ResponseEntity.ok(admins);
+        List<ChannelMember> members = channelAdminService.getChannelMembers(user.getUsername(), channelId);
+        return ResponseEntity.ok(members);
     }
 
     @PostMapping("/{channelId}")
-    public ResponseEntity<ChannelAdmin> createChannelAdmin(
+    public ResponseEntity<ChannelMember> createChannelMember(
             @AuthenticationPrincipal User user,
             @PathVariable Long channelId,
-            @RequestParam Long userId
+            @RequestParam Long newUserId
     ) {
-        ChannelAdmin newAdmin = channelAdminService.addChannelAdmin(user.getUsername(), channelId, userId);
-        return ResponseEntity.status(201).body(newAdmin);
+        ChannelMember newMember = channelAdminService.addChannelMember(user.getUsername(), channelId, newUserId);
+        return ResponseEntity.status(201).body(newMember);
     }
 
-    @DeleteMapping("/{channelId}/{adminId}")
-    public ResponseEntity<Void> deleteChannelAdmin(
+    @DeleteMapping("/{channelId}/{memberId}")
+    public ResponseEntity<Void> deleteChannelMember(
             @AuthenticationPrincipal User user,
             @PathVariable Long channelId,
-            @PathVariable Long adminId
+            @PathVariable Long memberId
     ) {
-        channelAdminService.removeChannelAdmin(user.getUsername(), channelId, adminId);
+        channelAdminService.removeChannelMember(user.getUsername(), channelId, memberId);
         return ResponseEntity.noContent().build();
     }
 }

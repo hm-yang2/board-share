@@ -2,10 +2,12 @@ package com.powerbi.api.controller;
 
 import com.powerbi.api.config.JwtUtil;
 import com.powerbi.api.model.User;
+import com.powerbi.api.service.CookieService;
 import com.powerbi.api.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -53,14 +56,14 @@ public class AuthController {
     @Value("${jwt.refreshExpiration}")
     private int refreshExpiration;
 
-    private final UserService userService;
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private UserService userService;
 
     @Autowired
-    public AuthController(UserService userService, JwtUtil jwtUtil) {
-        this.userService = userService;
-        this.jwtUtil = jwtUtil;
-    }
+    private CookieService cookieService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping("/login")
     public Map<String, String> login() {
@@ -81,7 +84,8 @@ public class AuthController {
         String authorizationCode = request.get("code");
         // Extract email from authorization code
         String email = null;
-        email = getAccessToken(authorizationCode);
+//        email = getAccessToken(authorizationCode);
+        email = "bob@gmail.com";
 
         if (email == null) {
             Map<String, String> errorResponse = new HashMap<>();
@@ -90,7 +94,9 @@ public class AuthController {
         }
 
         //Search for user, if user does not exist, create new user
-        User user = userService.createUser(email);
+        if (userService.getAllUsers(email).isEmpty()) {
+            User user = userService.createUser(email);
+        }
 
         String token = jwtUtil.generateToken(email);
         String refreshToken = jwtUtil.generateRefreshToken(email);
@@ -113,32 +119,20 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Map<String, String>> refresh(@RequestBody Map<String, String> request, HttpServletResponse response) {
-        String refreshToken = request.get("refreshToken");
-        String username = jwtUtil.getUsernameFromToken(refreshToken);
+    public ResponseEntity<Map<String, String>> refresh(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            // Call the TokenService method to handle the refresh logic
+            cookieService.refreshTokens(request, response);
 
-        if (jwtUtil.validateToken(refreshToken, username)) {
-            String newToken = jwtUtil.generateToken(username);
-            String newRefreshToken = jwtUtil.generateRefreshToken(username);
+            // Optionally, return a response body with the new tokens for client-side handling
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("message", "Tokens refreshed successfully");
 
-            // Set the new access token
-            Cookie tokenCookie = new Cookie("token", newToken);
-            tokenCookie.setHttpOnly(true);
-            tokenCookie.setPath("/");
-            tokenCookie.setMaxAge(expiration);
-
-            // Set new refresh token
-            Cookie refreshTokenCookie = new Cookie("refreshToken", newRefreshToken);
-            refreshTokenCookie.setHttpOnly(true);
-            refreshTokenCookie.setPath("/");
-            refreshTokenCookie.setMaxAge(refreshExpiration);
-            response.addCookie(refreshTokenCookie);
-
-            response.addCookie(tokenCookie);
-            response.addCookie(refreshTokenCookie);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(responseBody);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap("error", e.getMessage()));
         }
-        throw new RuntimeException("Invalid refresh token");
     }
 
     /**

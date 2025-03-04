@@ -20,9 +20,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = true)
-    private String password;
-
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant dateCreated;
@@ -30,6 +27,10 @@ public class User {
     // Getters and Setters
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {

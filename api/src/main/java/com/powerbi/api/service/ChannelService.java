@@ -5,12 +5,12 @@ import com.powerbi.api.model.Channel;
 import com.powerbi.api.model.ChannelAdmin;
 import com.powerbi.api.model.ChannelMember;
 import com.powerbi.api.model.ChannelOwner;
+import com.powerbi.api.model.ChannelRole;
 import com.powerbi.api.model.User;
 import com.powerbi.api.repository.ChannelAdminRepository;
 import com.powerbi.api.repository.ChannelMemberRepository;
 import com.powerbi.api.repository.ChannelOwnerRepository;
 import com.powerbi.api.repository.ChannelRepository;
-import com.powerbi.api.model.ChannelRole;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service class responsible for managing Channel entities.
@@ -35,6 +36,8 @@ public class ChannelService {
     private final ChannelMemberRepository channelMemberRepository;
     private final ChannelAdminRepository channelAdminRepository;
     private final ChannelOwnerRepository channelOwnerRepository;
+    @Autowired
+    private UserService userService;
 
     /**
      * Constructs a ChannelService with the necessary dependencies.
@@ -64,11 +67,20 @@ public class ChannelService {
      * Retrieves a list of channels accessible to the user.
      * Includes public channels and private channels where the user is a member, admin, or owner.
      *
-     * @param user the user requesting the list of channels
+     * @param username the user requesting the list of channels
      * @return a list of Channel entities the user has access to
      */
     @Transactional
-    public List<Channel> getChannels(User user) {
+    public List<Channel> getChannels(String username, String search) {
+        User user = userService.getUser(username);
+        if (permissionService.hasSuperUserPermission(user)) {
+            return channelRepository.findAll()
+                    .stream()
+                    .filter(channel -> search == null || search.trim().isEmpty() ||
+                            channel.getName().toLowerCase().contains(search.toLowerCase()))
+                    .toList();
+        }
+
         // Fetch public channels
         List<Channel> publicChannels = channelRepository.findByVisibility(Channel.Visibility.PUBLIC);
 
@@ -90,21 +102,28 @@ public class ChannelService {
 
         //Remove duplicates
         Set<Channel> channels = new LinkedHashSet<>(accessibleChannels);
-        accessibleChannels.clear();
-        accessibleChannels.addAll(channels);
 
-        return accessibleChannels;
+        if (search != null && !search.trim().isEmpty()) {
+            String searchLower = search.toLowerCase();
+            channels = channels.stream()
+                    .filter(channel -> channel.getName().toLowerCase().contains(searchLower))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+
+        return new ArrayList<>(channels);
     }
 
     /**
      * Creates a new channel and assigns the creating user as the channel owner.
      *
-     * @param user       the user creating the channel
+     * @param username       the user creating the channel
      * @param channelDTO the data transfer object containing channel details
      * @return the created Channel entity
      */
     @Transactional
-    public Channel createChannel(User user, ChannelDTO channelDTO) {
+    public Channel createChannel(String username, ChannelDTO channelDTO) {
+        User user = userService.getUser(username);
+
         //Create channel
         Channel channel = new Channel();
         channel.setName(channelDTO.getName());
@@ -125,14 +144,18 @@ public class ChannelService {
      * Updates an existing channel's details.
      * Only the owner of the channel is authorized to update it.
      *
-     * @param user       the user requesting the update
+     * @param username       the user requesting the update
      * @param channelDTO the data transfer object containing updated channel details
      * @return the updated Channel entity
      * @throws AccessDeniedException if the user is not the owner of the channel
      * @throws ResourceNotFoundException if the channel does not exist
      */
     @Transactional
-    public Channel updateChannel(User user, ChannelDTO channelDTO) {
+    public Channel updateChannel(String username, ChannelDTO channelDTO) {
+        User user = userService.getUser(username);
+        if (channelDTO.getId() == null) {
+            throw new ResourceNotFoundException("No Channel Id");
+        }
         Channel channel = channelRepository.findById(channelDTO.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Channel not found"));
 
@@ -152,12 +175,14 @@ public class ChannelService {
     /**
      * Deletes a channel if the user is the owner.
      *
-     * @param user      the user requesting the deletion
+     * @param username      the user requesting the deletion
      * @param channelId the ID of the channel to be deleted
      * @throws AccessDeniedException if the user is not the owner of the channel
      */
     @Transactional
-    public void deleteChannel(User user, Long channelId) {
+    public void deleteChannel(String username, Long channelId) {
+        User user = userService.getUser(username);
+
         if (!permissionService.hasChannelPermission(user, channelId, ChannelRole.OWNER)) {
             throw new AccessDeniedException("User is not authorized to delete this channel");
         }

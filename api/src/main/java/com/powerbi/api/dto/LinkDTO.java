@@ -17,7 +17,7 @@ public class LinkDTO {
     private String description;
 
     @NotNull
-    @URL(message = "Invalid URL")
+    @URL
     private String link;
 
     private Instant dateCreated;

@@ -51,6 +51,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
+    public User getUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow();
+    }
+
     /**
      * Creates a new User with the specified email.
      * Checks if a user with the same email already exists.
@@ -80,7 +85,8 @@ public class UserService {
      * @throws NoSuchElementException if the user to be deleted does not exist
      */
     @Transactional
-    public void deleteUser(User user, Long toDeleteUserId) {
+    public void deleteUser(String username, Long toDeleteUserId) {
+        User user = userRepository.findByEmail(username).orElseThrow();
         if (!permissionService.hasSuperUserPermission(user)) {
             throw new AccessDeniedException("You do not have permission to delete users.");
         }

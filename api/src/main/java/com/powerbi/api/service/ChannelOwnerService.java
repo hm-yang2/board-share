@@ -23,6 +23,8 @@ import java.util.List;
  */
 @Service
 public class ChannelOwnerService {
+    @Autowired
+    private UserService userService;
 
     private final PermissionService permissionService;
 
@@ -58,12 +60,14 @@ public class ChannelOwnerService {
     /**
      * Retrieves a list of ChannelOwner entities associated with a specific channel.
      *
-     * @param user      the user requesting the list of channel owners
+     * @param username  the user requesting the list of channel owners
      * @param channelId the ID of the channel
      * @return a list of ChannelOwner entities
      * @throws AccessDeniedException if the user is not an owner or super user of the channel
      */
-    public List<ChannelOwner> getChannelOwners(User user, Long channelId) {
+    @Transactional
+    public List<ChannelOwner> getChannelOwners(String username, Long channelId) {
+        User user = userService.getUser(username);
         if (!isOwnerOrAbove(user, channelId)) {
             throw new AccessDeniedException("You do not have permission to view channel owners.");
         }
@@ -74,14 +78,15 @@ public class ChannelOwnerService {
     /**
      * Adds a new owner to a channel.
      *
-     * @param user        the user performing the addition
+     * @param username    the user performing the addition
      * @param channelId   the ID of the channel to add an owner to
      * @param newOwnerId  the ID of the user to be added as a channel owner
      * @throws AccessDeniedException          if the user is not an owner or super user of the channel
      * @throws DataIntegrityViolationException if the user is already an owner of the channel
      */
     @Transactional
-    public void addChannelOwner(User user, Long channelId, Long newOwnerId) {
+    public void addChannelOwner(String username, Long channelId, Long newOwnerId) {
+        User user = userService.getUser(username);
         if (!isOwnerOrAbove(user, channelId)) {
             throw new AccessDeniedException("You do not have permission to add a channel owner.");
         }
@@ -103,14 +108,15 @@ public class ChannelOwnerService {
     /**
      * Removes an owner from a channel.
      *
-     * @param user      the user performing the removal
+     * @param username  the user performing the removal
      * @param channelId the ID of the channel
      * @param ownerId   the ID of the owner to be removed
      * @throws AccessDeniedException          if the user is not an owner or super user of the channel
      * @throws DataIntegrityViolationException if the channel would be left without an owner
      */
     @Transactional
-    public void removeChannelOwner(User user, Long channelId, Long ownerId) {
+    public void removeChannelOwner(String username, Long channelId, Long ownerId) {
+        User user = userService.getUser(username);
         if (!isOwnerOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to remove channel owners.");
         }

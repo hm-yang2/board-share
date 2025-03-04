@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret:defaultSecretKey}")
     private String secret;
 
     @Value("${jwt.expiration}")
@@ -61,7 +61,7 @@ public class JwtUtil {
     }
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         return claimsResolver.apply(claims);
     }
 

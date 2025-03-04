@@ -23,6 +23,8 @@ import java.util.List;
  */
 @Service
 public class ChannelLinkService {
+    @Autowired
+    private UserService userService;
     private final ChannelLinkRepository channelLinkRepository;
     private final ChannelRepository channelRepository;
     private final LinkRepository linkRepository;
@@ -52,13 +54,14 @@ public class ChannelLinkService {
     /**
      * Retrieves all ChannelLink entities associated with a given channel.
      *
-     * @param user      the user requesting the links
+     * @param username  the user requesting the links
      * @param channelId the ID of the channel
      * @return a list of ChannelLink entities
      * @throws AccessDeniedException if the user does not have permission to view links in the channel
      */
     @Transactional
-    public List<ChannelLink> getChannelLinks(User user, Long channelId) {
+    public List<ChannelLink> getChannelLinks(String username, Long channelId) {
+        User user = userService.getUser(username);
         if (permissionService.hasChannelPermission(user, channelId, ChannelRole.NOT_ALLOWED)) {
             throw new AccessDeniedException("User does not have permission to view links in this channel.");
         }
@@ -68,13 +71,14 @@ public class ChannelLinkService {
     /**
      * Creates a new ChannelLink entity and associates it with a channel and a link.
      *
-     * @param user             the user creating the channel link
+     * @param username         the user creating the channel link
      * @param channelLinkData  the data for the new channel link
      * @return the newly created ChannelLink entity
      * @throws AccessDeniedException if the user does not have permission to create links in the channel
      */
     @Transactional
-    public ChannelLink createChannelLink(User user, ChannelLinkDTO channelLinkData) {
+    public ChannelLink createChannelLink(String username, ChannelLinkDTO channelLinkData) {
+        User user = userService.getUser(username);
         if (permissionService.hasChannelPermission(
                 user, channelLinkData.getChannelId(), ChannelRole.NOT_ALLOWED
         )) {
@@ -96,14 +100,15 @@ public class ChannelLinkService {
     /**
      * Updates an existing ChannelLink entity.
      *
-     * @param user             the user updating the channel link
+     * @param username         the user updating the channel link
      * @param channelLinkId    the ID of the channel link to update
      * @param channelLinkData  the new data for the channel link
      * @return the updated ChannelLink entity
      * @throws AccessDeniedException if the user does not have permission to update the channel link
      */
     @Transactional
-    public ChannelLink updateChannelLink(User user, Long channelLinkId, ChannelLinkDTO channelLinkData) {
+    public ChannelLink updateChannelLink(String username, Long channelLinkId, ChannelLinkDTO channelLinkData) {
+        User user = userService.getUser(username);
         ChannelLink channelLink = channelLinkRepository.findById(channelLinkId).orElseThrow();
 
         // Check if the user is the link owner, channel owner, or super user
@@ -120,11 +125,12 @@ public class ChannelLinkService {
     /**
      * Deletes an existing ChannelLink entity.
      *
-     * @param user          the user deleting the channel link
+     * @param username      the user deleting the channel link
      * @param channelLinkId the ID of the channel link to delete
      * @throws AccessDeniedException if the user does not have permission to delete the channel link
      */
-    public void deleteChannelLink(User user, Long channelLinkId) {
+    public void deleteChannelLink(String username, Long channelLinkId) {
+        User user = userService.getUser(username);
         ChannelLink channelLink = channelLinkRepository.findById(channelLinkId).orElseThrow();
 
         // Check if the user is the link owner, channel owner, or super user

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface LinkRepository extends JpaRepository<Link, Long> {
     List<Link> findByUser(User user);
+    List<Link> findByUserAndTitleContainingIgnoreCase(User user, String title);
     Optional<Link> findByUserAndId(User user, Long linkId);
 }
 

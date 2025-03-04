@@ -20,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class ChannelAdminService {
+    @Autowired
+    private UserService userService;
     private final PermissionService permissionService;
 
     private final ChannelRepository channelRepository;
@@ -44,12 +46,13 @@ public class ChannelAdminService {
 
     /**
      * Returns list of channel members, assuming the user is admin or above.
-     * @param user User
+     * @param username User
      * @param channelId ChannelId
      * @return List of channel members
      */
     @Transactional
-    public List<ChannelMember> getChannelMembers(User user, Long channelId) {
+    public List<ChannelMember> getChannelMembers(String username, Long channelId) {
+        User user = userService.getUser(username);
         if (!isAdminOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to view channel members.");
         }
@@ -59,13 +62,14 @@ public class ChannelAdminService {
 
     /**
      * Adds a channel member to the channel
-     * @param user User
+     * @param username User
      * @param channelId channelId
      * @param newUserId new member's userId
      * @return newly create channel id
      */
     @Transactional
-    public ChannelMember addChannelMember(User user, Long channelId, Long newUserId) {
+    public ChannelMember addChannelMember(String username, Long channelId, Long newUserId) {
+        User user = userService.getUser(username);
         if (!isAdminOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to add members.");
         }
@@ -87,12 +91,13 @@ public class ChannelAdminService {
 
     /**
      * Removes channel member from channel
-     * @param user User
+     * @param username User
      * @param channelId ChannelId
      * @param memberId ChannelMemberId of the to be removed member
      */
     @Transactional
-    public void removeChannelMember(User user, Long channelId, Long memberId) {
+    public void removeChannelMember(String username, Long channelId, Long memberId) {
+        User user = userService.getUser(username);
         if (!isAdminOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to remove members.");
         }
@@ -104,12 +109,13 @@ public class ChannelAdminService {
 
     /**
      * Returns list of channel admins
-     * @param user User
+     * @param username User
      * @param channelId ChannelId
      * @return list of channel admins
      */
     @Transactional
-    public List<ChannelAdmin> getChannelAdmins(User user, Long channelId) {
+    public List<ChannelAdmin> getChannelAdmins(String username, Long channelId) {
+        User user = userService.getUser(username);
         if (!isAdminOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to view channel admins.");
         }
@@ -119,13 +125,14 @@ public class ChannelAdminService {
 
     /**
      * Adds channel admin
-     * @param user User
+     * @param username User
      * @param channelId ChannelId
      * @param userId UserId of the new channel admin
      * @return new channel admin
      */
     @Transactional
-    public ChannelAdmin addChannelAdmin(User user, Long channelId, Long userId) {
+    public ChannelAdmin addChannelAdmin(String username, Long channelId, Long userId) {
+        User user = userService.getUser(username);
         if (!isAdminOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to add admins.");
         }
@@ -146,12 +153,13 @@ public class ChannelAdminService {
 
     /**
      * Removes channel admin
-     * @param user User
+     * @param username User
      * @param channelId ChannelId
      * @param adminId ChannelAdminId of to be deleted admin
      */
     @Transactional
-    public void removeChannelAdmin(User user, Long channelId, Long adminId) {
+    public void removeChannelAdmin(String username, Long channelId, Long adminId) {
+        User user = userService.getUser(username);
         if (!isAdminOrAbove(user, channelId)) {
             throw new AccessDeniedException("User is not authorized to remove admins.");
         }
@@ -168,7 +176,7 @@ public class ChannelAdminService {
      * @param channelId ChannelId
      * @return boolean
      */
-    public boolean isAdminOrAbove(User user, Long channelId) {
+    private boolean isAdminOrAbove(User user, Long channelId) {
         ChannelRole role = permissionService.getUserRoleInChannel(user, channelId);
         return role == ChannelRole.ADMIN || role == ChannelRole.OWNER || role == ChannelRole.SUPER_USER;
     }

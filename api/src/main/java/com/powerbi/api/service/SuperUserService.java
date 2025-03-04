@@ -19,38 +19,26 @@ import java.util.NoSuchElementException;
  */
 @Service
 public class SuperUserService {
-    private final SuperUserRepository superUserRepository;
-    private final UserRepository userRepository;
-    private final PermissionService permissionService;
-
-    /**
-     * Constructs a SuperUserService with the necessary dependencies.
-     *
-     * @param superUserRepository the repository for SuperUser entities
-     * @param userRepository      the repository for User entities
-     * @param permissionService   the service responsible for permission checks
-     */
     @Autowired
-    public SuperUserService(
-            SuperUserRepository superUserRepository,
-            UserRepository userRepository,
-            PermissionService permissionService
-    ) {
-        this.superUserRepository = superUserRepository;
-        this.userRepository = userRepository;
-        this.permissionService = permissionService;
-    }
+    private SuperUserRepository superUserRepository;
+    @Autowired
+    private PermissionService permissionService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Retrieves all SuperUsers in the system.
      * Requires the requesting user to have SuperUser permissions.
      *
-     * @param user the user requesting the list of SuperUsers
+     * @param username the user requesting the list of SuperUsers
      * @return a list of SuperUser entities
      * @throws AccessDeniedException if the user does not have SuperUser permissions
      */
     @Transactional
-    public List<SuperUser> getAllSuperUsers(User user) {
+    public List<SuperUser> getAllSuperUsers(String username) {
+        User user = userService.getUser(username);
         if (!permissionService.hasSuperUserPermission(user)) {
             throw new AccessDeniedException("You do not have access to view SuperUsers");
         }
@@ -61,14 +49,15 @@ public class SuperUserService {
      * Adds a new SuperUser to the system.
      * Requires the requesting user to have SuperUser permissions.
      *
-     * @param user      the user requesting to add a new SuperUser
+     * @param username      the user requesting to add a new SuperUser
      * @param newUserId the ID of the user to be promoted to SuperUser
      * @throws AccessDeniedException           if the requesting user does not have SuperUser permissions
      * @throws DataIntegrityViolationException if the user is already a SuperUser
      * @throws NoSuchElementException          if the user to be promoted does not exist
      */
     @Transactional
-    public void addSuperUser(User user, Long newUserId) {
+    public void addSuperUser(String username, Long newUserId) {
+        User user = userService.getUser(username);
         if (!permissionService.hasSuperUserPermission(user)) {
             throw new AccessDeniedException("You do not have access to view SuperUsers");
         }
@@ -91,13 +80,14 @@ public class SuperUserService {
      * Removes an existing SuperUser from the system.
      * Requires the requesting user to have SuperUser permissions.
      *
-     * @param user          the user requesting the removal of a SuperUser
+     * @param username          the user requesting the removal of a SuperUser
      * @param deleteSuperId the ID of the SuperUser to be removed
      * @throws AccessDeniedException  if the requesting user does not have SuperUser permissions
      * @throws NoSuchElementException if the SuperUser to be removed does not exist
      */
     @Transactional
-    public void removeSuperUser(User user, Long deleteSuperId) {
+    public void removeSuperUser(String username, Long deleteSuperId) {
+        User user = userService.getUser(username);
         if (!permissionService.hasSuperUserPermission(user)) {
             throw new AccessDeniedException("You do not have access to view SuperUsers");
         }

@@ -1,6 +1,8 @@
 package com.powerbi.api.service;
 
+import com.powerbi.api.model.SuperUser;
 import com.powerbi.api.model.User;
+import com.powerbi.api.repository.SuperUserRepository;
 import com.powerbi.api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.NoSuchElementException;
  */
 @Service
 public class UserService {
+    @Autowired
+    private SuperUserRepository superUserRepository;
     private final UserRepository userRepository;
     private final PermissionService permissionService;
 
@@ -72,7 +76,16 @@ public class UserService {
 
         User user = new User();
         user.setEmail(email);
-        return userRepository.save(user);
+        user = userRepository.save(user);
+
+        //Create new superuser if no initial superuser
+        if (superUserRepository.count() < 1) {
+            SuperUser initialSuper = new SuperUser();
+            initialSuper.setUser(user);
+            superUserRepository.save(initialSuper);
+        }
+
+        return user;
     }
 
     /**
@@ -91,6 +104,10 @@ public class UserService {
             throw new AccessDeniedException("You do not have permission to delete users.");
         }
         User userToDelete = userRepository.findById(toDeleteUserId).orElseThrow();
+        long ownerCount = userRepository.count();
+        if (ownerCount <= 1) {
+            throw new DataIntegrityViolationException("At least one user must remain in the app.");
+        }
         userRepository.delete(userToDelete);
     }
 }

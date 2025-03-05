@@ -101,15 +101,14 @@ public class ChannelLinkService {
      * Updates an existing ChannelLink entity.
      *
      * @param username         the user updating the channel link
-     * @param channelLinkId    the ID of the channel link to update
      * @param channelLinkData  the new data for the channel link
      * @return the updated ChannelLink entity
      * @throws AccessDeniedException if the user does not have permission to update the channel link
      */
     @Transactional
-    public ChannelLink updateChannelLink(String username, Long channelLinkId, ChannelLinkDTO channelLinkData) {
+    public ChannelLink updateChannelLink(String username, ChannelLinkDTO channelLinkData) {
         User user = userService.getUser(username);
-        ChannelLink channelLink = channelLinkRepository.findById(channelLinkId).orElseThrow();
+        ChannelLink channelLink = channelLinkRepository.findById(channelLinkData.getId()).orElseThrow();
 
         // Check if the user is the link owner, channel owner, or super user
         if (!isAdminOrAbove(user, channelLink.getChannel().getId(), channelLink.getLink().getUser().getId())) {
@@ -117,7 +116,7 @@ public class ChannelLinkService {
         }
 
         channelLink.setTitle(channelLinkData.getTitle());
-        channelLink.setLink(linkRepository.getReferenceById(channelLinkData.getLinkId()));
+        channelLink.setLink(linkRepository.findById(channelLinkData.getLinkId()).orElseThrow());
 
         return channelLinkRepository.save(channelLink);
     }

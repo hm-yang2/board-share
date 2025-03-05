@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -44,13 +43,11 @@ public class ChannelLinkController {
     }
 
     @PostMapping("/{channelId}")
-    public ResponseEntity<ChannelLink> updateChannelLink(
+    public ResponseEntity<ChannelLink> editChannelLink(
             @AuthenticationPrincipal User user,
-            @PathVariable Long channelId,
-            @RequestParam Long channelLinkId,
             @RequestBody ChannelLinkDTO channelLinkData
     ) {
-        ChannelLink updatedLink = channelLinkService.updateChannelLink(user.getUsername(), channelLinkId, channelLinkData);
+        ChannelLink updatedLink = channelLinkService.updateChannelLink(user.getUsername(), channelLinkData);
         return ResponseEntity.ok(updatedLink);
     }
 

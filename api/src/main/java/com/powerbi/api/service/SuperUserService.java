@@ -93,6 +93,10 @@ public class SuperUserService {
         }
         SuperUser superUser = superUserRepository.findById(deleteSuperId).orElseThrow();
 
+        long superUserCount = superUserRepository.count();
+        if (superUserCount <= 1) {
+            throw new DataIntegrityViolationException("At least one super user must remain in the app.");
+        }
         superUserRepository.delete(superUser);
     }
 }

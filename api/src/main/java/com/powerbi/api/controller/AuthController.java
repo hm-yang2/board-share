@@ -1,11 +1,11 @@
 package com.powerbi.api.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.powerbi.api.config.JwtUtil;
 import com.powerbi.api.model.User;
 import com.powerbi.api.service.CookieService;
 import com.powerbi.api.service.UserService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
@@ -84,8 +83,7 @@ public class AuthController {
         String authorizationCode = request.get("code");
         // Extract email from authorization code
         String email = null;
-//        email = getAccessToken(authorizationCode);
-        email = "bob@gmail.com";
+        email = getAccessToken(authorizationCode);
 
         if (email == null) {
             Map<String, String> errorResponse = new HashMap<>();
@@ -157,7 +155,7 @@ public class AuthController {
                     .post()
                     .uri(tokenEndpoint)
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .body(BodyInserters.fromFormData(params))
+                    .bodyValue(params)
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
                     })
@@ -166,12 +164,10 @@ public class AuthController {
             String idToken = (String) Objects.requireNonNull(tokenResponse).get("id_token");
 
             // Parse ID token to get username
-            Claims claims = Jwts.parser()
-                    .setSigningKey(jwtUtil.getSecret())  // Use the secret key you defined for signing/validation
-                    .parseClaimsJws(idToken)
-                    .getBody();
+            DecodedJWT decodedJWT = JWT.decode(idToken);
 
-            return claims.get("email", String.class);
+            // Extract email claim
+            return decodedJWT.getClaim("email").asString();
         } catch (WebClientException | NullPointerException e) {
             return null;
         }

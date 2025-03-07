@@ -24,6 +24,13 @@ public class ChannelLinkController {
     @Autowired
     private ChannelLinkService channelLinkService;
 
+    /**
+     * Retrieves a list of links associated with a given channel.
+     *
+     * @param user The currently authenticated user.
+     * @param channelId The ID of the channel for which links are being fetched.
+     * @return A ResponseEntity containing a list of ChannelLink objects.
+     */
     @GetMapping("/{channelId}")
     public ResponseEntity<List<ChannelLink>> getChannelLinks(
             @AuthenticationPrincipal User user,
@@ -33,6 +40,14 @@ public class ChannelLinkController {
         return ResponseEntity.ok(links);
     }
 
+    /**
+     * Creates a new link for a given channel.
+     * The channel link details are provided in the request body as a ChannelLinkDTO object.
+     *
+     * @param user The currently authenticated user.
+     * @param channelLinkData The details of the new channel link to be created.
+     * @return A ResponseEntity containing the created ChannelLink object.
+     */
     @PutMapping("/{channelId}")
     public ResponseEntity<ChannelLink> createChannelLink(
             @AuthenticationPrincipal User user,
@@ -42,6 +57,14 @@ public class ChannelLinkController {
         return ResponseEntity.ok(createdLink);
     }
 
+    /**
+     * Updates an existing link for a given channel.
+     * The updated channel link details are provided in the request body as a ChannelLinkDTO object.
+     *
+     * @param user The currently authenticated user.
+     * @param channelLinkData The details of the channel link to be updated.
+     * @return A ResponseEntity containing the updated ChannelLink object.
+     */
     @PostMapping("/{channelId}")
     public ResponseEntity<ChannelLink> editChannelLink(
             @AuthenticationPrincipal User user,
@@ -51,6 +74,14 @@ public class ChannelLinkController {
         return ResponseEntity.ok(updatedLink);
     }
 
+    /**
+     * Deletes a channel link for a given channel.
+     *
+     * @param user The currently authenticated user.
+     * @param channelId The ID of the channel from which the link will be deleted.
+     * @param channelLinkId The ID of the channel link to be deleted.
+     * @return A ResponseEntity indicating that the operation was successful (HTTP 204 No Content).
+     */
     @DeleteMapping("/{channelId}/{channelLinkId}")
     public ResponseEntity<Void> deleteChannelLink(
             @AuthenticationPrincipal User user,

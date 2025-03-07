@@ -14,17 +14,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller that handles operations related to users.
+ * Includes methods for retrieving users and deleting a specific user.
+ */
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Retrieves a list of all users.
+     * Optionally, a search parameter can be provided to filter the list.
+     *
+     * @param search An optional search query for filtering users by name or other criteria.
+     * @return A ResponseEntity containing a list of User objects.
+     */
     @GetMapping
     public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String search){
         return ResponseEntity.ok(userService.getAllUsers(search));
     }
 
+    /**
+     * Deletes a user by its ID.
+     *
+     * @param userDetails The currently authenticated user performing the deletion.
+     * @param id The ID of the user to be deleted.
+     */
     @DeleteMapping("/{id}")
     public void deleteUser(
             @AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetails,

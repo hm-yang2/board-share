@@ -31,6 +31,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Controller that handles authentication and token management.
+ * It integrates with Microsoft Azure AD for user login and generates JWT tokens.
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -64,6 +68,12 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * Generates the URL for Microsoft Azure login.
+     * The URL allows the user to authenticate via Azure and grant necessary permissions.
+     *
+     * @return A map containing the URL for Azure login.
+     */
     @GetMapping("/login")
     public Map<String, String> login() {
         String azureUrl = String.format(
@@ -75,6 +85,16 @@ public class AuthController {
         return response;
     }
 
+    /**
+     * Handles the authentication callback from Azure after user login.
+     * Exchanges the authorization code for an access token and extracts the email.
+     * If the user does not exist, it creates a new user.
+     * It also generates and returns JWT tokens (access and refresh tokens) stored in cookies.
+     *
+     * @param request The request containing the authorization code.
+     * @param response The HTTP response to send the JWT tokens as cookies.
+     * @return ResponseEntity containing success or error message.
+     */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(
             @RequestBody Map<String, String> request,
@@ -116,6 +136,14 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Refreshes the JWT tokens (access and refresh tokens) using the provided refresh token.
+     * The new tokens are returned as cookies in the response.
+     *
+     * @param request The HTTP request containing the current refresh token.
+     * @param response The HTTP response to set the refreshed JWT tokens as cookies.
+     * @return ResponseEntity indicating success or failure.
+     */
     @PostMapping("/refresh")
     public ResponseEntity<Map<String, String>> refresh(HttpServletRequest request, HttpServletResponse response) {
         try {

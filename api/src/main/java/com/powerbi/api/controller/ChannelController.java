@@ -20,12 +20,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller that handles operations related to channels.
+ * Includes methods for retrieving, creating, updating, and deleting channels.
+ */
 @RestController
 @RequestMapping("/api/channel")
 public class ChannelController {
     @Autowired
     private ChannelService channelService;
 
+    /**
+     * Retrieves a list of channels for the authenticated user.
+     * Optionally, the user can provide a search term to filter the channels.
+     *
+     * @param user The currently authenticated user.
+     * @param search An optional search term to filter channels.
+     * @return A ResponseEntity containing a list of Channel objects.
+     */
     @GetMapping
     public ResponseEntity<List<Channel>> getChannels(
             @AuthenticationPrincipal User user,
@@ -34,6 +46,14 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.getChannels(user.getUsername(), search));
     }
 
+    /**
+     * Creates a new channel for the authenticated user.
+     * The channel details are provided in the request body as a ChannelDTO object.
+     *
+     * @param user The currently authenticated user.
+     * @param channelDTO The details of the new channel to be created.
+     * @return A ResponseEntity containing the created Channel object.
+     */
     @PutMapping
     public ResponseEntity<Channel> createChannel(
             @AuthenticationPrincipal User user,
@@ -44,6 +64,14 @@ public class ChannelController {
                 .body(channelService.createChannel(user.getUsername(), channelDTO));
     }
 
+    /**
+     * Updates an existing channel for the authenticated user.
+     * The updated channel details are provided in the request body as a ChannelDTO object.
+     *
+     * @param user The currently authenticated user.
+     * @param channelDTO The details of the channel to be updated.
+     * @return A ResponseEntity containing the updated Channel object.
+     */
     @PostMapping
     public ResponseEntity<Channel> editChannel(
             @AuthenticationPrincipal User user,
@@ -52,6 +80,13 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.updateChannel(user.getUsername(), channelDTO));
     }
 
+    /**
+     * Deletes a channel for the authenticated user.
+     *
+     * @param user The currently authenticated user.
+     * @param id The ID of the channel to be deleted.
+     * @return A ResponseEntity indicating that the operation was successful (HTTP 204 No Content).
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteChannel(
         @AuthenticationPrincipal User user,

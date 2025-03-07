@@ -91,14 +91,14 @@ public class ChannelService {
         List<ChannelOwner> owners = channelOwnerRepository.findByUserId(user.getId());
 
         // Add private channels to the list
-        privateChannels.addAll(members.stream().map(ChannelMember::getChannel).toList());
-        privateChannels.addAll(admins.stream().map(ChannelAdmin::getChannel).toList());
         privateChannels.addAll(owners.stream().map(ChannelOwner::getChannel).toList());
+        privateChannels.addAll(admins.stream().map(ChannelAdmin::getChannel).toList());
+        privateChannels.addAll(members.stream().map(ChannelMember::getChannel).toList());
 
         // Combine public and private channels and return
         List<Channel> accessibleChannels = new ArrayList<>();
-        accessibleChannels.addAll(publicChannels);
         accessibleChannels.addAll(privateChannels);
+        accessibleChannels.addAll(publicChannels);
 
         //Remove duplicates
         Set<Channel> channels = new LinkedHashSet<>(accessibleChannels);

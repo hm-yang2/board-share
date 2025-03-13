@@ -2,6 +2,6 @@ export interface Channel {
   id: number;
   name: string;
   description: string;
-  visibility: 'public' | 'private';
+  visibility: "public" | "private";
   dateCreated: Date;
 }

@@ -1,8 +1,8 @@
 import { Channel } from "./Channel";
 import { User } from "./User";
 
-export interface ChannelMembers {
-  user: User; // Foreign key
-  channel: Channel; // Foreign key
+export interface ChannelMember {
+  user: User;
+  channel: Channel;
   dateCreated: Date;
 }

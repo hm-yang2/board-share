@@ -85,7 +85,7 @@ public class ChannelOwnerService {
      * @throws DataIntegrityViolationException if the user is already an owner of the channel
      */
     @Transactional
-    public void addChannelOwner(String username, Long channelId, Long newOwnerId) {
+    public ChannelOwner addChannelOwner(String username, Long channelId, Long newOwnerId) {
         User user = userService.getUser(username);
         if (!isOwnerOrAbove(user, channelId)) {
             throw new AccessDeniedException("You do not have permission to add a channel owner.");
@@ -102,7 +102,7 @@ public class ChannelOwnerService {
         channelOwner.setChannel(channel);
         channelOwner.setUser(newOwner);
 
-        channelOwnerRepository.save(channelOwner);
+        return channelOwnerRepository.save(channelOwner);
     }
 
     /**

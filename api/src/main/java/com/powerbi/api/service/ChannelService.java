@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -111,6 +112,26 @@ public class ChannelService {
         }
 
         return new ArrayList<>(channels);
+    }
+
+    /**
+     * Retrieves a specific channel based on the given channel ID.
+     * The method ensures that the requesting user has permission to access the channel.
+     *
+     * @param username The username of the currently authenticated user.
+     * @param channelId The ID of the channel to retrieve.
+     * @return The Channel object if the user has access.
+     * @throws NoSuchElementException If the channel does not exist.
+     * @throws AccessDeniedException If the user does not have permission to access the channel.
+     */
+    @Transactional
+    public Channel getChannel(String username, Long channelId) {
+        User user = userService.getUser(username);
+        Channel channel = channelRepository.findById(channelId).orElseThrow();
+        if (permissionService.getUserRoleInChannel(user, channelId) == ChannelRole.NOT_ALLOWED) {
+            throw new AccessDeniedException("User not authorized to access this channel");
+        }
+        return channel;
     }
 
     /**

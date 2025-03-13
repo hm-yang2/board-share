@@ -34,7 +34,7 @@ public class SuperUserController {
      * @return A ResponseEntity containing a list of SuperUser objects.
      */
     @GetMapping
-    public ResponseEntity<List<SuperUser>> getAllSuperUsers(
+    public ResponseEntity<List<SuperUser>> getSuperUsers(
             @AuthenticationPrincipal User user
     ) {
         List<SuperUser> superUsers = superUserService.getAllSuperUsers(user.getUsername());

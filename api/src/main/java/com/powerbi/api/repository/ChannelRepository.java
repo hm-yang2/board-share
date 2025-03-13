@@ -10,5 +10,4 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
     Optional<Channel> findByName(String name);
     List<Channel> findByVisibility(Channel.Visibility visibility);
     boolean existsByName(String name);
-
 }

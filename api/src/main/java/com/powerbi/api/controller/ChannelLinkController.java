@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/channel")
+@RequestMapping("/api/channellink")
 public class ChannelLinkController {
     @Autowired
     private ChannelLinkService channelLinkService;

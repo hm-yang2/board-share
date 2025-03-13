@@ -47,6 +47,22 @@ public class ChannelController {
     }
 
     /**
+     * Retrieves a specific channel by its ID.
+     * Ensures that the requesting user has the necessary permissions to access the channel.
+     *
+     * @param user The currently authenticated user.
+     * @param channelId The ID of the channel to retrieve.
+     * @return A ResponseEntity containing the requested Channel object.
+     */
+    @GetMapping("/{channelId}")
+    public ResponseEntity<Channel> getChannel(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long channelId
+    ) {
+        return ResponseEntity.ok(channelService.getChannel(user.getUsername(), channelId));
+    }
+
+    /**
      * Creates a new channel for the authenticated user.
      * The channel details are provided in the request body as a ChannelDTO object.
      *

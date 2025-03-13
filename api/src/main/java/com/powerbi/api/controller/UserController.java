@@ -37,6 +37,17 @@ public class UserController {
     }
 
     /**
+     * Retrieves the details of a user by their user ID.
+     *
+     * @param userId the ID of the user to be retrieved
+     * @return a ResponseEntity containing the User object
+     */
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUser(userId));
+    }
+
+    /**
      * Deletes a user by its ID.
      *
      * @param userDetails The currently authenticated user performing the deletion.

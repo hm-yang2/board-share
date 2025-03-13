@@ -12,6 +12,13 @@ java {
 		languageVersion = JavaLanguageVersion.of(23)
 	}
 }
+javadoc {
+	destinationDir = file("./docs/javadoc")
+}
+
+tasks.withType(Javadoc).configureEach {
+	failOnError = false // Do not fail the build on Javadoc errors
+}
 
 repositories {
 	mavenCentral()

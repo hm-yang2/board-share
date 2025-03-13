@@ -60,6 +60,11 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow();
     }
 
+    @Transactional
+    public User getUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow();
+    }
+
     /**
      * Creates a new User with the specified email.
      * Checks if a user with the same email already exists.
@@ -92,7 +97,7 @@ public class UserService {
      * Deletes a user with the specified ID.
      * Only users with SuperUser permissions are allowed to delete other users.
      *
-     * @param user            the user requesting the deletion
+     * @param username            the user requesting the deletion
      * @param toDeleteUserId  the ID of the user to be deleted
      * @throws AccessDeniedException  if the requesting user does not have SuperUser permissions
      * @throws NoSuchElementException if the user to be deleted does not exist

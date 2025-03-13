@@ -53,14 +53,14 @@ public class ChannelOwnerController {
      * @return A ResponseEntity indicating that the operation was successful (HTTP 201 Created).
      */
     @PutMapping("/{channelId}")
-    public ResponseEntity<Void> createChannelOwner(
+    public ResponseEntity<ChannelOwner> createChannelOwner(
             @AuthenticationPrincipal User user,
             @PathVariable Long channelId,
             @RequestBody Map<String, Long> requestBody
     ) {
         Long newOwnerId = requestBody.get("id");
-        channelOwnerService.addChannelOwner(user.getUsername(), channelId, newOwnerId);
-        return ResponseEntity.status(201).build();
+        ChannelOwner newCHannelOwner = channelOwnerService.addChannelOwner(user.getUsername(), channelId, newOwnerId);
+        return ResponseEntity.status(201).body(newCHannelOwner);
     }
 
     /**

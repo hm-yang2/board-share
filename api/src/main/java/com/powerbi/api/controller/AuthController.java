@@ -7,7 +7,6 @@ import com.powerbi.api.model.User;
 import com.powerbi.api.service.CookieService;
 import com.powerbi.api.service.UserService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -137,28 +136,13 @@ public class AuthController {
     }
 
     /**
-     * Refreshes the JWT tokens (access and refresh tokens) using the provided refresh token.
-     * The new tokens are returned as cookies in the response.
+     * Checks if User is logged in
      *
-     * @param request The HTTP request containing the current refresh token.
-     * @param response The HTTP response to set the refreshed JWT tokens as cookies.
      * @return ResponseEntity indicating success or failure.
      */
-    @PostMapping("/refresh")
-    public ResponseEntity<Map<String, String>> refresh(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            // Call the TokenService method to handle the refresh logic
-            cookieService.refreshTokens(request, response);
-
-            // Optionally, return a response body with the new tokens for client-side handling
-            Map<String, String> responseBody = new HashMap<>();
-            responseBody.put("message", "Tokens refreshed successfully");
-
-            return ResponseEntity.ok(responseBody);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Collections.singletonMap("error", e.getMessage()));
-        }
+    @GetMapping("/check")
+    public ResponseEntity<Void> refresh(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+        return ResponseEntity.ok().build();
     }
 
     /**

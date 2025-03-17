@@ -58,6 +58,7 @@ public class PermissionService {
             case OWNER -> channelOwnerRepository.existsByUserIdAndChannelId(user.getId(), channelId);
             case SUPER_USER ->
                     hasSuperUserPermission(user);  // You can also directly call the hasSuperUserPermission method here
+            case NOT_ALLOWED -> true;
             default -> false;
         };
     }

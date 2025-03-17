@@ -7,9 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.Instant;
 
@@ -19,6 +22,8 @@ public class Link {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @URL
+    @NotBlank
     private String link;
 
     @ManyToOne
@@ -26,6 +31,7 @@ public class Link {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NotNull
     private String title;
     private String description;
 

@@ -128,7 +128,10 @@ public class ChannelService {
     public Channel getChannel(String username, Long channelId) {
         User user = userService.getUser(username);
         Channel channel = channelRepository.findById(channelId).orElseThrow();
-        if (permissionService.getUserRoleInChannel(user, channelId) == ChannelRole.NOT_ALLOWED) {
+        if (
+            channel.getVisibility() == Channel.Visibility.PRIVATE &&
+            permissionService.getUserRoleInChannel(user, channelId) == ChannelRole.NOT_ALLOWED
+        ) {
             throw new AccessDeniedException("User not authorized to access this channel");
         }
         return channel;

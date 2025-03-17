@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/channellink")
@@ -38,6 +39,29 @@ public class ChannelLinkController {
     ) {
         List<ChannelLink> links = channelLinkService.getChannelLinks(user.getUsername(), channelId);
         return ResponseEntity.ok(links);
+    }
+
+    /**
+     * Retrieves a {@link ChannelLink} for the specified channel and channel link IDs.
+     * <p>
+     * This endpoint requires authentication, and the user must have the necessary permissions to access the channel's link.
+     * If the channel is private, the user must have the appropriate permissions to view links in that channel.
+     * </p>
+     *
+     * @param user The authenticated user making the request.
+     * @param channelId The ID of the channel from which the link will be fetched.
+     * @param channelLinkId The ID of the channel link to be retrieved.
+     * @return A {@link ResponseEntity} containing the {@link ChannelLink} if found, or an appropriate error response.
+     * @throws NoSuchElementException If the channel or channel link with the specified IDs does not exist.
+     */
+    @GetMapping("/{channelId}/{channelLinkId}")
+    public ResponseEntity<ChannelLink> getChannelLink(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long channelId,
+            @PathVariable Long channelLinkId
+    ) {
+        ChannelLink link = channelLinkService.getChannelLink(user.getUsername(), channelId, channelLinkId);
+        return ResponseEntity.ok(link);
     }
 
     /**

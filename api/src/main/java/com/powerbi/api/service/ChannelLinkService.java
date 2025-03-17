@@ -3,18 +3,19 @@ package com.powerbi.api.service;
 import com.powerbi.api.dto.ChannelLinkDTO;
 import com.powerbi.api.model.Channel;
 import com.powerbi.api.model.ChannelLink;
+import com.powerbi.api.model.ChannelRole;
 import com.powerbi.api.model.Link;
 import com.powerbi.api.model.User;
 import com.powerbi.api.repository.ChannelLinkRepository;
 import com.powerbi.api.repository.ChannelRepository;
 import com.powerbi.api.repository.LinkRepository;
-import com.powerbi.api.model.ChannelRole;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Service class responsible for managing ChannelLink entities.
@@ -62,10 +63,42 @@ public class ChannelLinkService {
     @Transactional
     public List<ChannelLink> getChannelLinks(String username, Long channelId) {
         User user = userService.getUser(username);
-        if (permissionService.hasChannelPermission(user, channelId, ChannelRole.NOT_ALLOWED)) {
+        Channel channel = channelRepository.findById(channelId).orElseThrow();
+        if (
+            channel.getVisibility()== Channel.Visibility.PRIVATE &&
+            permissionService.hasChannelPermission(user, channelId, ChannelRole.NOT_ALLOWED)
+        ) {
             throw new AccessDeniedException("User does not have permission to view links in this channel.");
         }
         return channelLinkRepository.findByChannelId(channelId);
+    }
+
+    /**
+     * Retrieves a {@link ChannelLink} based on the given username, channelId, and channelLinkId.
+     * <p>
+     * This method checks if the channel is private and whether the user has the necessary permissions to access links
+     * within the channel. If the user does not have the required permissions, an {@link AccessDeniedException} is thrown.
+     * </p>
+     *
+     * @param username The username of the user attempting to access the channel link.
+     * @param channelId The ID of the channel where the link is stored.
+     * @param channelLinkId The ID of the channel link to be retrieved.
+     * @return The {@link ChannelLink} associated with the given channelId and channelLinkId.
+     * @throws AccessDeniedException If the user does not have permission to access links in a private channel.
+     * @throws NoSuchElementException If no channel or channel link is found with the specified IDs.
+     * @throws NullPointerException If any of the required parameters (e.g., username, channelId, or channelLinkId) are null.
+     */
+    @Transactional
+    public ChannelLink getChannelLink(String username, Long channelId, Long channelLinkId) {
+        User user = userService.getUser(username);
+        Channel channel = channelRepository.findById(channelId).orElseThrow();
+        if (
+                channel.getVisibility()== Channel.Visibility.PRIVATE &&
+                        permissionService.hasChannelPermission(user, channelId, ChannelRole.NOT_ALLOWED)
+        ) {
+            throw new AccessDeniedException("User does not have permission to view links in this channel.");
+        }
+        return channelLinkRepository.findByChannelIdAndId(channelId, channelLinkId).orElseThrow();
     }
 
     /**
@@ -79,13 +112,14 @@ public class ChannelLinkService {
     @Transactional
     public ChannelLink createChannelLink(String username, ChannelLinkDTO channelLinkData) {
         User user = userService.getUser(username);
-        if (permissionService.hasChannelPermission(
-                user, channelLinkData.getChannelId(), ChannelRole.NOT_ALLOWED
-        )) {
+        Channel channel = channelRepository.findById(channelLinkData.getChannelId()).orElseThrow();
+        if (
+            channel.getVisibility()== Channel.Visibility.PRIVATE &&
+            permissionService.hasChannelPermission(user, channel.getId(), ChannelRole.NOT_ALLOWED)
+        ) {
             throw new AccessDeniedException("User does not have permission to create links in this channel.");
         }
 
-        Channel channel = channelRepository.findById(channelLinkData.getChannelId()).orElseThrow();
         Link link = linkRepository.findById(channelLinkData.getLinkId()).orElseThrow();
 
         // Create the new ChannelLink

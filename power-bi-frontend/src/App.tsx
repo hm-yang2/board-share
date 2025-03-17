@@ -20,7 +20,7 @@ function App() {
         <Box>
           <NavBar />
         </Box>
-        <Box mt="40px" px={10}>
+        <Box mt="40px">
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/azure-landing" element={<AzureLandingPage />} />

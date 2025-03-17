@@ -2,6 +2,6 @@ export interface ChannelDTO {
   id?: number;
   name: string;
   description?: string;
-  visibility: "public" | "private";
+  visibility: "PUBLIC" | "PRIVATE";
   dateCreated?: Date;
 }

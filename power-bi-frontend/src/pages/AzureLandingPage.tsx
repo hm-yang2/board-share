@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GetJWTTokens } from "../api/AuthenticationCalls";
 import { useAuth } from "../context/AuthContext";
-import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, LinearProgress, Snackbar, Stack, Typography } from "@mui/joy";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  IconButton,
+  LinearProgress,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/joy";
 
 function AzureLandingPage() {
   const [openSnack, setOpenSnack] = useState(false);
@@ -18,44 +24,43 @@ function AzureLandingPage() {
       setOpenSnack(true);
       return;
     }
-    
-    GetJWTTokens(code).then((success) => {
-      if (success) {
-        console.log("JWT tokens obtained successfully.");
-        setAuth(true);
-        navigate("/");
-      } else {
+
+    GetJWTTokens(code)
+      .then((success) => {
+        if (success) {
+          console.log("JWT tokens obtained successfully.");
+          setAuth(true);
+          navigate("/");
+        } else {
+          setOpenSnack(true);
+          console.error("Failed to obtain JWT tokens.");
+        }
+      })
+      .catch((error) => {
         setOpenSnack(true);
-        console.error("Failed to obtain JWT tokens.");
-      }
-    }).catch((error) => {
-      setOpenSnack(true);
-      console.error("Error exchanging token:", error);
-    });
-  }, [searchParams, setAuth, navigate])
+        console.error("Error exchanging token:", error);
+      });
+  }, [searchParams, setAuth, navigate]);
 
   return (
     <Stack gap={2}>
       <Typography level="h4">
         Verifying Azure Login... Thank you for your patience
       </Typography>
-      <LinearProgress/>
-      <Snackbar 
-        open={openSnack} 
-        autoHideDuration={5000} 
-        variant='solid'
-        color='warning'
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        endDecorator= {
+      <LinearProgress />
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={5000}
+        variant="solid"
+        color="warning"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        endDecorator={
           <IconButton variant="plain" onClick={() => setOpenSnack(false)}>
-            <CloseIcon/>
+            <CloseIcon />
           </IconButton>
         }
       >
-        <Typography>
-          Failed to verify azure login
-        </Typography>
-        
+        <Typography>Failed to verify azure login</Typography>
       </Snackbar>
     </Stack>
   );

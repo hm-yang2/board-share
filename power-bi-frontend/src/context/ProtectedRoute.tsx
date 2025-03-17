@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isAuthenticated }= useAuth();
+  const { isAuthenticated } = useAuth();
 
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };

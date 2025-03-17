@@ -24,7 +24,7 @@ export async function GetLink(linkId: number) {
   }
 }
 
-export async function AddLink(linkDTO: LinkDTO) {
+export async function CreateLink(linkDTO: LinkDTO) {
   try {
     const response = await axiosInstance.put("/api/link", linkDTO);
     const newLink: Link = response.data;

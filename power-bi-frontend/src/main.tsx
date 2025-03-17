@@ -6,7 +6,9 @@ import { CssVarsProvider } from "@mui/joy";
 import theme from "./Theme.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <CssVarsProvider theme={theme}>
-    <App />
-  </CssVarsProvider>
+  <StrictMode>
+    <CssVarsProvider theme={theme}>
+      <App />
+    </CssVarsProvider>
+  </StrictMode>,
 );

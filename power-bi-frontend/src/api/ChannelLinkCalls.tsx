@@ -52,7 +52,9 @@ export async function DeleteChannelLink(
   channelLinkId: number,
 ) {
   try {
-    await axiosInstance.delete(`/api/channellink/${channelId}/${channelLinkId}`);
+    await axiosInstance.delete(
+      `/api/channellink/${channelId}/${channelLinkId}`,
+    );
   } catch (error) {
     console.error(error);
     return false;

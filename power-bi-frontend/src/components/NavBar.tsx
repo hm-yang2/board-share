@@ -40,6 +40,7 @@ const NavLink = ({
       onClick={() => navigate(to)}
       variant={isActive ? "soft" : "plain"}
       startDecorator={icon}
+      sx={{ outline: "none", "&:focus": { outline: "none" } }}
     >
       <Typography level="h4" fontWeight="normal">
         {name}
@@ -57,8 +58,7 @@ function NavBar() {
     <Box
       width="100%"
       height="60px"
-      bgcolor="white"
-      color="white"
+      bgcolor="lightblue"
       display="flex"
       alignItems="center"
       justifyContent="center"

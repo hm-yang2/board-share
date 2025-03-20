@@ -14,6 +14,7 @@ import com.powerbi.api.repository.ChannelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -135,6 +136,19 @@ public class ChannelService {
             throw new AccessDeniedException("User not authorized to access this channel");
         }
         return channel;
+    }
+
+    @Transactional
+    public ChannelRole getChannelRole(String username, @Nullable Long channelId) {
+        User user = userService.getUser(username);
+
+        if (channelId == null) { // Check if channelId is missing
+            boolean isSuperUser = permissionService.hasSuperUserPermission(user);
+            return isSuperUser ? ChannelRole.SUPER_USER : ChannelRole.NOT_ALLOWED;
+        }
+
+        Channel channel = channelRepository.findById(channelId).orElseThrow();
+        return permissionService.getUserRoleInChannel(user, channelId);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.powerbi.api.controller;
 
 import com.powerbi.api.dto.ChannelDTO;
 import com.powerbi.api.model.Channel;
+import com.powerbi.api.model.ChannelRole;
 import com.powerbi.api.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,14 @@ public class ChannelController {
             @PathVariable Long channelId
     ) {
         return ResponseEntity.ok(channelService.getChannel(user.getUsername(), channelId));
+    }
+
+    @GetMapping("/role")
+    public ResponseEntity<ChannelRole> getChannelRole(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false) Long channelId
+    ) {
+        return ResponseEntity.ok(channelService.getChannelRole(user.getUsername(), channelId));
     }
 
     /**

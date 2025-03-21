@@ -198,7 +198,8 @@ public class ChannelService {
                 .orElseThrow(() -> new ResourceNotFoundException("Channel not found"));
 
         // Check if user is the owner of the channel
-        if (!permissionService.hasChannelPermission(user, channel.getId(), ChannelRole.OWNER)) {
+        if (!(permissionService.hasChannelPermission(user, channel.getId(), ChannelRole.OWNER) ||
+                permissionService.hasSuperUserPermission(user))) {
             throw new AccessDeniedException("User is not authorized to update this channel");
         }
 
@@ -221,7 +222,8 @@ public class ChannelService {
     public void deleteChannel(String username, Long channelId) {
         User user = userService.getUser(username);
 
-        if (!permissionService.hasChannelPermission(user, channelId, ChannelRole.OWNER)) {
+        if (!(permissionService.hasChannelPermission(user, channelId, ChannelRole.OWNER) ||
+                permissionService.hasSuperUserPermission(user))) {
             throw new AccessDeniedException("User is not authorized to delete this channel");
         }
 

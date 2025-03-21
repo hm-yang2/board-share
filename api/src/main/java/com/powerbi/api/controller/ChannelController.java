@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller that handles operations related to channels.
@@ -64,11 +66,12 @@ public class ChannelController {
     }
 
     @GetMapping("/role")
-    public ResponseEntity<ChannelRole> getChannelRole(
+    public ResponseEntity<Map<String, ChannelRole>> getChannelRole(
             @AuthenticationPrincipal User user,
             @RequestParam(required = false) Long channelId
     ) {
-        return ResponseEntity.ok(channelService.getChannelRole(user.getUsername(), channelId));
+        ChannelRole role = channelService.getChannelRole(user.getUsername(), channelId);
+        return ResponseEntity.ok(Collections.singletonMap("role", role));
     }
 
     /**

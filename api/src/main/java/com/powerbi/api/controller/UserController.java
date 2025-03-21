@@ -47,6 +47,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
+    @GetMapping("/self")
+    public ResponseEntity<User> getSelf(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+
+        return ResponseEntity.ok(userService.getUser(user.getUsername()));
+    }
+
     /**
      * Deletes a user by its ID.
      *

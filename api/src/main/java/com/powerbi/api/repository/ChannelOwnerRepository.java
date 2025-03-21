@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ChannelOwnerRepository extends JpaRepository<ChannelOwner, Long> {
     List<ChannelOwner> findByChannelId(Long channelId);
     List<ChannelOwner> findByUserId(Long id);
-    Optional<ChannelOwner> findByUserIdAndChannelId(Long userId, Long channelId);
+    Optional<ChannelOwner> findByIdAndChannelId(Long userId, Long channelId);
     boolean existsByUserIdAndChannelId(Long userId, Long channelId);
     long countByChannelId(Long channelId);
 }

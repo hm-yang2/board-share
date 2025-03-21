@@ -121,7 +121,7 @@ public class ChannelOwnerService {
             throw new AccessDeniedException("User is not authorized to remove channel owners.");
         }
 
-        ChannelOwner owner = channelOwnerRepository.findByUserIdAndChannelId(ownerId, channelId).orElseThrow();
+        ChannelOwner owner = channelOwnerRepository.findById(ownerId).orElseThrow();
 
         long ownerCount = channelOwnerRepository.countByChannelId(channelId);
         if (ownerCount <= 1) {

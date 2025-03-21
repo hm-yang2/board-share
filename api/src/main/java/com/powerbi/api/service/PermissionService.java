@@ -47,7 +47,7 @@ public class PermissionService {
      *
      * @param user The user to check
      * @param channelId The channel ID
-     * @param requiredRole The required role (member, admin, owner, super user)
+     * @param requiredRole The required role (member, admin, owner, superuser)
      * @return true if the user has the required role, false otherwise
      */
     @Transactional
@@ -58,7 +58,12 @@ public class PermissionService {
             case OWNER -> channelOwnerRepository.existsByUserIdAndChannelId(user.getId(), channelId);
             case SUPER_USER ->
                     hasSuperUserPermission(user);  // You can also directly call the hasSuperUserPermission method here
-            case NOT_ALLOWED -> true;
+            case NOT_ALLOWED -> !(
+                    channelMemberRepository.existsByUserIdAndChannelId(user.getId(), channelId) ||
+                    channelAdminRepository.existsByUserIdAndChannelId(user.getId(), channelId) ||
+                    channelOwnerRepository.existsByUserIdAndChannelId(user.getId(), channelId) ||
+                    hasSuperUserPermission(user)
+            );
             default -> false;
         };
     }

@@ -103,6 +103,7 @@ public class AuthController {
         // Extract email from authorization code
         String email = null;
         email = getAccessToken(authorizationCode);
+//        String email = "bob@gmail.com";
 
         if (email == null) {
             Map<String, String> errorResponse = new HashMap<>();

@@ -33,6 +33,10 @@ public class User {
         return email;
     }
 
+    public Instant getDateCreated() {
+        return dateCreated;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

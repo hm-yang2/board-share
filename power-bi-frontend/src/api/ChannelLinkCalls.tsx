@@ -2,6 +2,11 @@ import { ChannelLink } from "../models/ChannelLink";
 import { ChannelLinkDTO } from "../models/ChannelLinkDTO";
 import { axiosInstance } from "./common";
 
+/**
+ * Fetches a list of all links in a specific channel.
+ * @param channelId The ID of the channel.
+ * @returns A promise that resolves to an array of ChannelLink objects.
+ */
 export async function GetChannelLinks(channelId: number) {
   try {
     const response = await axiosInstance.get(`/api/channellink/${channelId}`);
@@ -13,6 +18,31 @@ export async function GetChannelLinks(channelId: number) {
   }
 }
 
+/**
+ * Fetches a specific channel link by its ID.
+ * @param channelId The ID of the channel.
+ * @param channelLinkId The ID of the channel link to fetch.
+ * @returns A promise that resolves to a ChannelLink object or null if not found.
+ */
+export async function GetChannelLink(channelId: number, channelLinkId: number) {
+  try {
+    const response = await axiosInstance.get(
+      `/api/channellink/${channelId}/${channelLinkId}`,
+    );
+    const channeLink: ChannelLink = response.data;
+    return channeLink;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+/**
+ * Creates a new channel link.
+ * @param channelId The ID of the channel.
+ * @param channelLinkDTO The data transfer object containing channel link details.
+ * @returns A promise that resolves to the newly created ChannelLink object or null if the operation fails.
+ */
 export async function CreateChannelLink(
   channelId: number,
   channelLinkDTO: ChannelLinkDTO,
@@ -30,6 +60,12 @@ export async function CreateChannelLink(
   }
 }
 
+/**
+ * Updates an existing channel link.
+ * @param channelId The ID of the channel.
+ * @param channelLinkDTO The data transfer object containing updated channel link details.
+ * @returns A promise that resolves to the updated ChannelLink object or null if the operation fails.
+ */
 export async function UpdateChannelLink(
   channelId: number,
   channelLinkDTO: ChannelLinkDTO,
@@ -47,6 +83,12 @@ export async function UpdateChannelLink(
   }
 }
 
+/**
+ * Deletes a channel link by its ID.
+ * @param channelId The ID of the channel.
+ * @param channelLinkId The ID of the channel link to delete.
+ * @returns A promise that resolves to false if the deletion fails.
+ */
 export async function DeleteChannelLink(
   channelId: number,
   channelLinkId: number,

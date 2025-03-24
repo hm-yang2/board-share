@@ -11,6 +11,12 @@ import {
   Typography,
 } from "@mui/joy";
 
+/**
+ * Azure Landing Page
+ * Handles the redirection after Azure login and exchanges the authorization code for JWT tokens.
+ * If successful, it authenticates the user and redirects to the home page.
+ * If unsuccessful, it displays an error message.
+ */
 function AzureLandingPage() {
   const [openSnack, setOpenSnack] = useState(false);
   const [searchParams] = useSearchParams();

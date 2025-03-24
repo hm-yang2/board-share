@@ -1,17 +1,38 @@
 import { Grid } from "@mui/joy";
-import { Channel } from "../../models/Channel";
+import { Channel, ChannelRole } from "../../models/Channel";
 import ChannelCard from "./ChannelCard";
 
 interface ChannelsGridProps {
   channels: Channel[];
+  channelRoles?: Map<number, ChannelRole["role"]>;
+  rowSpacing?: number;
+  columnSpacing?: number;
 }
 
-function ChannelsGrid({ channels }: ChannelsGridProps) {
+/**
+ * Grid layout for displaying a list of channels.
+ * @param channels The list of channels to display.
+ * @param channelRoles A map of channel IDs to user roles (optional).
+ * @param rowSpacing The spacing between rows in the grid (optional).
+ * @param columnSpacing The spacing between columns in the grid (optional).
+ * @returns The ChannelsGrid component.
+ */
+function ChannelsGrid({
+  channels,
+  rowSpacing,
+  columnSpacing,
+  channelRoles,
+}: ChannelsGridProps) {
   return (
-    <Grid container rowSpacing={10} columnSpacing={10} columns={3}>
+    <Grid
+      container
+      rowSpacing={rowSpacing ? rowSpacing : 10}
+      columnSpacing={columnSpacing ? columnSpacing : 10}
+      columns={3}
+    >
       {channels.map((channel) => (
         <Grid xs={1} sm={1} md={1} lg={1} key={channel.id}>
-          <ChannelCard channel={channel} />
+          <ChannelCard channel={channel} role={channelRoles?.get(channel.id)} />
         </Grid>
       ))}
     </Grid>

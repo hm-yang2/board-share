@@ -2,7 +2,7 @@ import { Box, Card, IconButton, Stack, Typography } from "@mui/joy";
 import { ChannelLink } from "../../models/ChannelLink";
 import { Link } from "../../models/Link";
 import LinkEditMenu from "./LinkEditMenu";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { FullscreenOutlined } from "@mui/icons-material";
 
 interface LinkCardProps {
@@ -11,9 +11,18 @@ interface LinkCardProps {
   height?: string;
   width?: string;
 }
+
+/**
+ * Card component for displaying a link or channel link.
+ * Includes an iframe preview of the link and options to edit or view in fullscreen.
+ * @param link The link object to display.
+ * @param channelLink The channel link object (optional).
+ * @param width The width of the card (optional).
+ * @param height The height of the card (optional).
+ * @returns The LinkCard component.
+ */
 function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // Parsing link data
   const content = channelLink == undefined ? link : channelLink;
@@ -22,13 +31,11 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
   const enterFullScreen = () => {
     if (iframeRef.current) {
       iframeRef.current.requestFullscreen();
-      setIsFullScreen(true);
     }
   };
 
   useEffect(() => {
     const handleFullScreenChange = () => {
-      setIsFullScreen(document.fullscreenElement !== null);
     };
     const handleKeyPress = (event: { key: string }) => {
       if (event.key === "f" || event.key === "F") {
@@ -44,7 +51,12 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
   }, []);
 
   return (
-    <Box display="flex" alignSelf={"center"} height={height ? height : "88vh"} width={width?width:"85vw"}>
+    <Box
+      display="flex"
+      alignSelf={"center"}
+      height={height ? height : "88vh"}
+      width={width ? width : "85vw"}
+    >
       <Card
         variant="soft"
         sx={{
@@ -67,7 +79,7 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
           </Stack>
           <Stack direction={"row"}>
             <EnterFullScreenButton handleFullScreen={enterFullScreen} />
-            <LinkEditMenu link={link} />
+            <LinkEditMenu link={link} channelLink={channelLink} />
           </Stack>
         </Stack>
         <iframe

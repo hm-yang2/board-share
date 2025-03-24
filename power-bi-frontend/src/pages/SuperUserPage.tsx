@@ -22,6 +22,11 @@ import ChannelUserCard from "../components/channel/ChannelUserCard";
 import { GetChannelRole } from "../api/ChannelCalls";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Super User Page
+ * Allows management of super users and regular users, including adding, removing, and deleting users.
+ * Redirects non-super users to the home page.
+ */
 function SuperUserPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [superUsers, setSuperUsers] = useState<SuperUser[]>([]);

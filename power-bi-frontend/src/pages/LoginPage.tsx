@@ -9,6 +9,12 @@ import {
 } from "@mui/joy";
 import CloseIcon from "@mui/icons-material/Close";
 
+/**
+ * Login Page
+ * Redirects the user to the Azure login page.
+ * Displays a loading indicator while the redirection is in progress.
+ * Shows an error message if the redirection fails.
+ */
 function LoginPage() {
   const [openSnack, setOpenSnack] = useState(false);
   useEffect(() => {

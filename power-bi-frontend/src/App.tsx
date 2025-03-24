@@ -6,13 +6,25 @@ import { Box } from "@mui/joy";
 import NavBar from "./components/NavBar";
 import LoginPage from "./pages/LoginPage";
 import LinkPage from "./pages/LinkPage";
-import EditLinkPage from "./pages/EditLinkPage";
-import CreateLinkPage from "./pages/CreateLinkPage";
-import ChannelPage from "./pages/ChannelPage";
-import UserPage from "./pages/UserPage";
+import ChannelUsersPage from "./pages/channel/ChannelUsersPage";
+import ChannelSettingsPage from "./pages/channel/ChannelSettingsPage";
+import ChannelDefaultPage from "./pages/channel/ChannelDefaultPage";
 import AzureLandingPage from "./pages/AzureLandingPage";
+import CreateLinkPage from "./pages/CreateLinkPage";
 import HomePage from "./pages/HomePage";
+import UserPage from "./pages/UserPage";
+import ChannelLinkPage from "./pages/channel/ChannelLinkPage";
+import ChannelPage from "./pages/channel/ChannelPage";
+import SuperUserPage from "./pages/SuperUserPage";
 
+/**
+ * App Component
+ * 
+ * The root component of the application.
+ * Sets up routing, authentication context, and the navigation bar.
+ * Protects routes using the `ProtectedRoute` component to ensure only authenticated users can access certain pages.
+ * 
+ */
 function App() {
   return (
     <BrowserRouter>
@@ -41,21 +53,18 @@ function App() {
               }
             />
             <Route
-              path="/user/:id"
-              element={
-                <ProtectedRoute>
-                  <UserPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/channel/:id/*"
               element={
                 <ProtectedRoute>
                   <ChannelPage />
                 </ProtectedRoute>
               }
-            />
+            >
+              <Route index element={<ChannelDefaultPage />} />
+              <Route path=":channelLinkId" element={<ChannelLinkPage />} />
+              <Route path="users" element={<ChannelUsersPage />} />
+              <Route path="settings" element={<ChannelSettingsPage />} />
+            </Route>
             <Route
               path="/link/:id"
               element={
@@ -65,18 +74,18 @@ function App() {
               }
             />
             <Route
-              path="/edit-link/:id"
-              element={
-                <ProtectedRoute>
-                  <EditLinkPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/create-link"
               element={
                 <ProtectedRoute>
                   <CreateLinkPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/superuser"
+              element={
+                <ProtectedRoute>
+                  <SuperUserPage />
                 </ProtectedRoute>
               }
             />

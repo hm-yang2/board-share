@@ -21,6 +21,11 @@ import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 
+/**
+ * Button to create a new channel.
+ * Opens a modal dialog for entering channel details like name, description, and visibility.
+ * @returns The CreateChannelButton component.
+ */
 function CreateChannelButton() {
   const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("");

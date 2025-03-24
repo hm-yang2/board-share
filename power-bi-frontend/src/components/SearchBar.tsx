@@ -5,6 +5,11 @@ import SearchIcon from "@mui/icons-material/Search";
 interface SearchBarProps {
   onSearch: (query: string) => void;
 }
+/**
+ * Search bar component for filtering or searching items.
+ * @param onSearch Callback function triggered when the user presses Enter.
+ * @returns The SearchBar component.
+ */
 function SearchBar({ onSearch }: SearchBarProps) {
   const [search, setSearch] = useState("");
 

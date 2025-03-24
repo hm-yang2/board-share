@@ -50,15 +50,16 @@ const NavLink = ({
 };
 
 /**
- * Navigation top bar for the whole application
- * @returns NavBar component
+ * Navigation top bar for the entire application.
+ * Displays links to different pages and the application title.
+ * @returns The NavBar component.
  */
 function NavBar() {
   return (
     <Box
       width="100%"
       height="60px"
-      bgcolor="lightblue"
+      bgcolor="white"
       display="flex"
       alignItems="center"
       justifyContent="center"

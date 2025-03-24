@@ -4,18 +4,18 @@ import { Channel } from "../../models/Channel";
 import { Box, Button, Dropdown, Menu, MenuButton, MenuItem } from "@mui/joy";
 
 interface LinkChannelMenuProps {
-  originalChannel?: Channel;
+  channel: Channel | null;
   setChannel: any;
 }
 
-function LinkChannelMenu({
-  originalChannel,
-  setChannel,
-}: LinkChannelMenuProps) {
+/**
+ * Dropdown menu for selecting a channel.
+ * @param channel The currently selected channel (optional).
+ * @param setChannel Callback function to update the selected channel.
+ * @returns The LinkChannelMenu component.
+ */
+function LinkChannelMenu({ channel, setChannel }: LinkChannelMenuProps) {
   const [channels, setChannels] = useState<Channel[]>([]);
-  const [selectedChannel, setSelectedChannel] = useState<Channel | null>(
-    originalChannel ? originalChannel : null,
-  );
 
   useEffect(() => {
     GetChannels("")
@@ -32,12 +32,12 @@ function LinkChannelMenu({
       <Dropdown>
         <MenuButton
           size="lg"
-          variant={selectedChannel == null ? "soft" : "solid"}
+          variant={channel == null ? "soft" : "solid"}
           sx={{ outline: "none", "&:focus": { outline: "none" } }}
         >
-          {selectedChannel == null
+          {channel == null
             ? "Select Channels"
-            : "Selected Channel: " + selectedChannel.name}
+            : "Selected Channel: " + channel.name}
         </MenuButton>
         <Menu>
           <MenuItem>
@@ -46,7 +46,6 @@ function LinkChannelMenu({
               fullWidth
               color="neutral"
               onClick={() => {
-                setSelectedChannel(null);
                 setChannel(null);
               }}
               sx={{ outline: "none", "&:focus": { outline: "none" } }}
@@ -61,7 +60,6 @@ function LinkChannelMenu({
                 fullWidth
                 color="neutral"
                 onClick={() => {
-                  setSelectedChannel(channel);
                   setChannel(channel);
                 }}
                 sx={{

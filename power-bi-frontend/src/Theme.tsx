@@ -4,6 +4,11 @@ declare module "@mui/joy/styles" {
   // No custom tokens found, you can skip the theme augmentation.
 }
 
+/**
+ * Custom Theme
+ * Extends the default theme provided by @mui/joy to include custom color schemes.
+ * Defines light and dark color palettes for primary, success, and warning colors.
+ */
 const theme = extendTheme({
   colorSchemes: {
     light: {

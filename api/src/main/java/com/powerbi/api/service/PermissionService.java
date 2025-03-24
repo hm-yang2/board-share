@@ -10,6 +10,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class responsible for managing user permissions within the system.
+ * Provides methods to check user roles and permissions for specific channels,
+ * including roles such as MEMBER, ADMIN, OWNER, and SUPER_USER.
+ * 
+ * This service interacts with repositories to verify user roles and determine
+ * access levels for various operations.
+ */
 @Service
 public class PermissionService {
     @Autowired

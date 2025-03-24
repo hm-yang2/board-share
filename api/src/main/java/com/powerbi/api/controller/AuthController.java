@@ -141,7 +141,7 @@ public class AuthController {
      * @return ResponseEntity indicating success or failure.
      */
     @GetMapping("/check")
-    public ResponseEntity<Void> refresh(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
+    public ResponseEntity<Void> check(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
         return ResponseEntity.ok().build();
     }
 

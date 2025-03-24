@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class responsible for managing cookies related to JWT tokens.
+ * Handles operations such as refreshing access and refresh tokens stored in cookies.
+ */
 @Service
 public class CookieService {
     @Value("${jwt.expiration}")
@@ -19,6 +23,16 @@ public class CookieService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * Refreshes the access and refresh tokens using the refresh token stored in cookies.
+     * Validates the refresh token and generates new tokens if valid.
+     * The new tokens are added to the response as cookies.
+     *
+     * @param request  the HTTP request containing the cookies
+     * @param response the HTTP response to which the new cookies will be added
+     * @return the new access token
+     * @throws RuntimeException if the refresh token is not found or is invalid
+     */
     public String refreshTokens(HttpServletRequest request, HttpServletResponse response) {
         // Get the refresh token from cookies
         String refreshToken = null;

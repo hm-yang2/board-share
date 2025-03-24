@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Controller that handles operations related to channel links.
+ * Includes methods for retrieving, creating, updating, and deleting channel links.
+ */
 @RestController
 @RequestMapping("/api/channellink")
 public class ChannelLinkController {

@@ -38,12 +38,22 @@ public class Channel {
     @Column(nullable = false, updatable = false)
     private Instant dateCreated;
 
-    // Getters and Setters
-
+    /**
+     * Enum representing the visibility of a channel.
+     * 
+     * Visibility levels include:
+     * - PUBLIC: The channel is visible to all users.
+     * - PRIVATE: The channel is restricted to specific users.
+     */
     public enum Visibility {
-        PUBLIC, PRIVATE
+        /** The channel is visible to all users. */
+        PUBLIC,
+
+        /** The channel is restricted to specific users. */
+        PRIVATE
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }

@@ -47,9 +47,13 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
+    /**
+     * Retrieves the details of the current logged-in user
+     *
+     * @return a ResponseEntity containing the User object
+     */
     @GetMapping("/self")
     public ResponseEntity<User> getSelf(@AuthenticationPrincipal org.springframework.security.core.userdetails.User user) {
-
         return ResponseEntity.ok(userService.getUser(user.getUsername()));
     }
 

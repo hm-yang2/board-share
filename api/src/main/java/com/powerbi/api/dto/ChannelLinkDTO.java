@@ -5,6 +5,14 @@ import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 
+/**
+ * Data Transfer Object (DTO) for the ChannelLink entity.
+ * Represents the data required to create or update a channel link, as well as the data
+ * returned when retrieving channel link information.
+ * 
+ * Includes fields for the link's ID, title, associated link ID, channel ID, and creation date.
+ * Validation constraints are applied to ensure data integrity.
+ */
 public class ChannelLinkDTO {
     private Long id;
 

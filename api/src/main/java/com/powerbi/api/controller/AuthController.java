@@ -104,7 +104,6 @@ public class AuthController {
         String email = null;
         email = getAccessToken(authorizationCode);
 //        String email = "bob@gmail.com";
-
         if (email == null) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "No email found in token");

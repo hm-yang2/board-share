@@ -6,6 +6,14 @@ import org.hibernate.validator.constraints.URL;
 
 import java.time.Instant;
 
+/**
+ * Data Transfer Object (DTO) for the Link entity.
+ * Represents the data required to create or update a link, as well as the data
+ * returned when retrieving link information.
+ * 
+ * Includes fields for the link's ID, title, description, URL, and creation date.
+ * Validation constraints are applied to ensure data integrity.
+ */
 public class LinkDTO {
     private Long id;
 

@@ -18,31 +18,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class responsible for managing ChannelAdmin entities.
+ * Handles operations related to retrieving, adding, and removing channel admins,
+ * along with authorization checks to ensure proper access control.
+ */
 @Service
 public class ChannelAdminService {
     @Autowired
     private UserService userService;
-    private final PermissionService permissionService;
-
-    private final ChannelRepository channelRepository;
-    private final ChannelMemberRepository channelMemberRepository;
-    private final ChannelAdminRepository channelAdminRepository;
-    private final UserRepository userRepository;
-
     @Autowired
-    public ChannelAdminService(
-            PermissionService permissionService,
-            ChannelRepository channelRepository,
-            ChannelMemberRepository channelMemberRepository,
-            ChannelAdminRepository channelAdminRepository,
-            UserRepository userRepository
-    ) {
-        this.permissionService = permissionService;
-        this.channelRepository = channelRepository;
-        this.channelMemberRepository = channelMemberRepository;
-        this.channelAdminRepository = channelAdminRepository;
-        this.userRepository = userRepository;
-    }
+    private PermissionService permissionService;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private ChannelMemberRepository channelMemberRepository;
+    @Autowired
+    private ChannelAdminRepository channelAdminRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Returns list of channel members, assuming the user is admin or above.

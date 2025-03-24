@@ -14,6 +14,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
+/**
+ * Represents a ChannelLink entity in the system.
+ * Links a specific link to a channel with a title and metadata.
+ * 
+ * Includes references to the link and channel, as well as the creation date of the association.
+ * This entity is mapped to a database table using JPA annotations.
+ */
 @Entity
 public class ChannelLink {
 

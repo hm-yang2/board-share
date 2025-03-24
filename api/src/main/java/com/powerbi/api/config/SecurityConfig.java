@@ -15,13 +15,24 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Security configuration for the application.
+ * Configures CORS, CSRF, and JWT-based authentication.
+ */
 @Configuration
 public class SecurityConfig {
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
-    private CookieService cookieService;
+    private CookieService cookieService;    
 
+    /**
+     * Configures the security filter chain.
+     *
+     * @param http the HttpSecurity object
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
@@ -39,6 +50,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configures CORS settings for the application.
+     *
+     * @return the CorsConfigurationSource object
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

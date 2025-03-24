@@ -10,6 +10,13 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
+/**
+ * Represents a User entity in the system.
+ * A user is identified by a unique email and has a creation date.
+ * 
+ * Includes fields for the user's ID, email, and creation date.
+ * This entity is mapped to a database table using JPA annotations.
+ */
 @Entity
 @Table(name = "\"user\"")
 public class User {

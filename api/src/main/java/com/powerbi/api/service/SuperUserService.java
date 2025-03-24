@@ -56,7 +56,7 @@ public class SuperUserService {
      * @throws NoSuchElementException          if the user to be promoted does not exist
      */
     @Transactional
-    public void addSuperUser(String username, Long newUserId) {
+    public SuperUser addSuperUser(String username, Long newUserId) {
         User user = userService.getUser(username);
         if (!permissionService.hasSuperUserPermission(user)) {
             throw new AccessDeniedException("You do not have access to view SuperUsers");
@@ -73,7 +73,7 @@ public class SuperUserService {
         SuperUser superUser = new SuperUser();
         superUser.setUser(newSuperUser);
 
-        superUserRepository.save(superUser);
+        return superUserRepository.save(superUser);
     }
 
     /**

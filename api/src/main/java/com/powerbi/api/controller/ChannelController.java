@@ -65,6 +65,14 @@ public class ChannelController {
         return ResponseEntity.ok(channelService.getChannel(user.getUsername(), channelId));
     }
 
+    /**
+     * Retrieves the role of the authenticated user for a specific channel.
+     * If no channel ID is provided, the method returns the default role of the user.
+     *
+     * @param user The currently authenticated user.
+     * @param channelId An optional ID of the channel to retrieve the role for.
+     * @return A ResponseEntity containing a map with the user's role for the specified channel.
+     */
     @GetMapping("/role")
     public ResponseEntity<Map<String, ChannelRole>> getChannelRole(
             @AuthenticationPrincipal User user,

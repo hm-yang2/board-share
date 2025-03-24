@@ -25,37 +25,16 @@ import java.util.List;
 public class ChannelOwnerService {
     @Autowired
     private UserService userService;
-
-    private final PermissionService permissionService;
-
-    private final ChannelRepository channelRepository;
-    private final ChannelMemberRepository channelMemberRepository;
-    private final ChannelOwnerRepository channelOwnerRepository;
-    private final UserRepository userRepository;
-
-    /**
-     * Constructs a ChannelOwnerService with the necessary dependencies.
-     *
-     * @param permissionService      the service for checking user permissions
-     * @param channelRepository      the repository for Channel entities
-     * @param channelMemberRepository the repository for ChannelMember entities
-     * @param channelOwnerRepository the repository for ChannelOwner entities
-     * @param userRepository         the repository for User entities
-     */
     @Autowired
-    public ChannelOwnerService(
-            PermissionService permissionService,
-            ChannelRepository channelRepository,
-            ChannelMemberRepository channelMemberRepository,
-            ChannelOwnerRepository channelOwnerRepository,
-            UserRepository userRepository
-    ) {
-        this.permissionService = permissionService;
-        this.channelRepository = channelRepository;
-        this.channelMemberRepository = channelMemberRepository;
-        this.channelOwnerRepository = channelOwnerRepository;
-        this.userRepository = userRepository;
-    }
+    private PermissionService permissionService;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private ChannelMemberRepository channelMemberRepository;
+    @Autowired
+    private ChannelOwnerRepository channelOwnerRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Retrieves a list of ChannelOwner entities associated with a specific channel.

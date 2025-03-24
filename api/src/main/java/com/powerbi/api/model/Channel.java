@@ -11,6 +11,14 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
+/**
+ * Represents a Channel entity in the system.
+ * A channel is a container for content with attributes such as name, description,
+ * visibility, and creation date.
+ * 
+ * The visibility of a channel can be either PUBLIC or PRIVATE.
+ * This entity is mapped to a database table using JPA annotations.
+ */
 @Entity
 public class Channel {
 

@@ -12,24 +12,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PermissionService {
-
-    private final ChannelMemberRepository channelMemberRepository;
-    private final ChannelAdminRepository channelAdminRepository;
-    private final ChannelOwnerRepository channelOwnerRepository;
-    private final SuperUserRepository superUserRepository;
-
     @Autowired
-    public PermissionService(
-            ChannelMemberRepository channelMemberRepository,
-            ChannelAdminRepository channelAdminRepository,
-            ChannelOwnerRepository channelOwnerRepository,
-            SuperUserRepository superUserRepository
-    ) {
-        this.channelMemberRepository = channelMemberRepository;
-        this.channelAdminRepository = channelAdminRepository;
-        this.channelOwnerRepository = channelOwnerRepository;
-        this.superUserRepository = superUserRepository;
-    }
+    private ChannelMemberRepository channelMemberRepository;
+    @Autowired
+    private ChannelAdminRepository channelAdminRepository;
+    @Autowired
+    private ChannelOwnerRepository channelOwnerRepository;
+    @Autowired
+    private SuperUserRepository superUserRepository;
 
     /**
      * Checks if the user is a superuser.
@@ -68,6 +58,13 @@ public class PermissionService {
         };
     }
 
+    /**
+     * Retrieves the role of a user in a specific channel.
+     *
+     * @param user      the user to check
+     * @param channelId the ID of the channel
+     * @return the role of the user in the specified channel
+     */
     @Transactional
     public ChannelRole getUserRoleInChannel(User user, Long channelId) {
         if (superUserRepository.existsByUserId(user.getId())) {

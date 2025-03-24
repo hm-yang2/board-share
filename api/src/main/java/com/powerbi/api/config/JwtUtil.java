@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Utility class for handling JWT operations.
+ * Provides methods for generating, validating, and parsing JWT tokens.
+ */
 @Component
 public class JwtUtil {
     @Value("${jwt.secret:defaultSecretKey}")
@@ -22,11 +26,23 @@ public class JwtUtil {
     @Value("${jwt.refreshExpiration}")
     private long refreshExpiration;
 
+    /**
+     * Generates a JWT token for the given username.
+     *
+     * @param username the username for which the token is generated
+     * @return the generated JWT token
+     */
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username, expiration);
     }
 
+    /**
+     * Generates a refresh token for the given username.
+     *
+     * @param username the username for which the refresh token is generated
+     * @return the generated refresh token
+     */
     public String generateRefreshToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username, refreshExpiration);
@@ -43,11 +59,24 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+     * Validates a JWT token for the given username.
+     *
+     * @param token the JWT token to validate
+     * @param username the username to validate against
+     * @return true if the token is valid, false otherwise
+     */
     public Boolean validateToken(String token, String username) {
         final String tokenUsername = getUsernameFromToken(token);
         return (tokenUsername.equals(username) && !isTokenExpired(token));
     }
 
+    /**
+     * Extracts the username from a JWT token.
+     *
+     * @param token the JWT token
+     * @return the username extracted from the token
+     */
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }

@@ -50,13 +50,13 @@ public class SuperUserController {
      * @return A ResponseEntity indicating that the operation was successful (HTTP 201 Created).
      */
     @PutMapping
-    public ResponseEntity<Void> createSuperUser(
+    public ResponseEntity<SuperUser> createSuperUser(
             @AuthenticationPrincipal User user,
             @RequestBody Map<String, Long> requestBody
     ) {
         Long newUserId = requestBody.get("id");
-        superUserService.addSuperUser(user.getUsername(), newUserId);
-        return ResponseEntity.status(201).build();
+        SuperUser newSuper = superUserService.addSuperUser(user.getUsername(), newUserId);
+        return ResponseEntity.status(201).body(newSuper);
     }
 
     /**

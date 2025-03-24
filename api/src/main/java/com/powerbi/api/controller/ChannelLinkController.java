@@ -43,10 +43,9 @@ public class ChannelLinkController {
 
     /**
      * Retrieves a {@link ChannelLink} for the specified channel and channel link IDs.
-     * <p>
+     * 
      * This endpoint requires authentication, and the user must have the necessary permissions to access the channel's link.
      * If the channel is private, the user must have the appropriate permissions to view links in that channel.
-     * </p>
      *
      * @param user The authenticated user making the request.
      * @param channelId The ID of the channel from which the link will be fetched.

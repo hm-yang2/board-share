@@ -13,6 +13,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
+/**
+ * Represents a ChannelOwner entity in the system.
+ * Associates a user with ownership privileges for a specific channel.
+ * 
+ * Includes references to the user and channel, as well as the creation date of the association.
+ * This entity is mapped to a database table using JPA annotations.
+ */
 @Entity
 public class ChannelOwner {
     @Id

@@ -17,15 +17,37 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collections;
 
+/**
+ * Filter for handling JWT-based authentication.
+ * Extracts JWT tokens from cookies, validates them, and sets the authentication context.
+ * 
+ * If a valid refresh token is found, it refreshes the access token.
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CookieService cookieService;
 
+    /**
+     * Constructor for JwtAuthenticationFilter. 
+     * Not a Spring Boot bean, hence the need for this contructor. Might want to convert this into a bean
+     *
+     * @param jwtUtil the utility class for handling JWT operations
+     * @param cookieService the service for managing cookies
+     */
     public JwtAuthenticationFilter(JwtUtil jwtUtil, CookieService cookieService) {
         this.jwtUtil = jwtUtil;
         this.cookieService = cookieService;
     }
 
+    /**
+     * Filters incoming requests to validate JWT tokens and set the security context.
+     *
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @param filterChain the filter chain
+     * @throws ServletException if a servlet error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,

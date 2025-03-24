@@ -26,31 +26,14 @@ import java.util.NoSuchElementException;
 public class ChannelLinkService {
     @Autowired
     private UserService userService;
-    private final ChannelLinkRepository channelLinkRepository;
-    private final ChannelRepository channelRepository;
-    private final LinkRepository linkRepository;
-    private final PermissionService permissionService;
-
-    /**
-     * Constructs a ChannelLinkService with the necessary dependencies.
-     *
-     * @param channelLinkRepository the repository for ChannelLink entities
-     * @param channelRepository     the repository for Channel entities
-     * @param linkRepository        the repository for Link entities
-     * @param permissionService     the service for checking user permissions
-     */
     @Autowired
-    public ChannelLinkService(
-            ChannelLinkRepository channelLinkRepository,
-            ChannelRepository channelRepository,
-            LinkRepository linkRepository,
-            PermissionService permissionService
-    ) {
-        this.channelLinkRepository = channelLinkRepository;
-        this.channelRepository = channelRepository;
-        this.linkRepository = linkRepository;
-        this.permissionService = permissionService;
-    }
+    private ChannelLinkRepository channelLinkRepository;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private LinkRepository linkRepository;
+    @Autowired
+    private PermissionService permissionService;
 
     /**
      * Retrieves all ChannelLink entities associated with a given channel.

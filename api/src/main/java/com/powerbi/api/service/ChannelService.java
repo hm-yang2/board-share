@@ -32,38 +32,18 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ChannelService {
-    private final PermissionService permissionService;
-
-    private final ChannelRepository channelRepository;
-    private final ChannelMemberRepository channelMemberRepository;
-    private final ChannelAdminRepository channelAdminRepository;
-    private final ChannelOwnerRepository channelOwnerRepository;
+    @Autowired
+    private PermissionService permissionService;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private ChannelMemberRepository channelMemberRepository;
+    @Autowired
+    private ChannelAdminRepository channelAdminRepository;
+    @Autowired
+    private ChannelOwnerRepository channelOwnerRepository;
     @Autowired
     private UserService userService;
-
-    /**
-     * Constructs a ChannelService with the necessary dependencies.
-     *
-     * @param permissionService       the service for checking user permissions
-     * @param channelRepository       the repository for Channel entities
-     * @param channelMemberRepository the repository for ChannelMember entities
-     * @param channelAdminRepository  the repository for ChannelAdmin entities
-     * @param channelOwnerRepository  the repository for ChannelOwner entities
-     */
-    @Autowired
-    public ChannelService(
-        PermissionService permissionService,
-        ChannelRepository channelRepository,
-        ChannelMemberRepository channelMemberRepository,
-        ChannelAdminRepository channelAdminRepository,
-        ChannelOwnerRepository channelOwnerRepository
-    ) {
-        this.permissionService = permissionService;
-        this.channelRepository = channelRepository;
-        this.channelMemberRepository = channelMemberRepository;
-        this.channelAdminRepository = channelAdminRepository;
-        this.channelOwnerRepository = channelOwnerRepository;
-    }
 
     /**
      * Retrieves a list of channels accessible to the user.
@@ -138,6 +118,14 @@ public class ChannelService {
         return channel;
     }
 
+    /**
+     * Retrieves the role of a user in a specific channel.
+     * If no channel ID is provided, the method checks if the user is a superuser.
+     *
+     * @param username  the username of the user
+     * @param channelId the ID of the channel (optional)
+     * @return the role of the user in the specified channel
+     */    
     @Transactional
     public ChannelRole getChannelRole(String username, @Nullable Long channelId) {
         User user = userService.getUser(username);

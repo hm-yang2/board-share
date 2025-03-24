@@ -6,6 +6,14 @@ import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 
+/**
+ * Data Transfer Object (DTO) for the Channel entity.
+ * Represents the data required to create or update a channel, as well as the data
+ * returned when retrieving channel information.
+ * 
+ * Includes fields for the channel's ID, name, description, visibility, and creation date.
+ * Validation constraints are applied to ensure data integrity.
+ */
 public class ChannelDTO {
     private Long id;
 

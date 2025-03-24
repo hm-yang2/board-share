@@ -13,6 +13,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
+/**
+ * Represents a SuperUser entity in the system.
+ * Associates a user with elevated privileges across the system.
+ * 
+ * Includes a reference to the user and the creation date of the association.
+ * This entity is mapped to a database table using JPA annotations.
+ */
 @Entity
 public class SuperUser {
     @Id
@@ -36,5 +43,13 @@ public class SuperUser {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Instant getDateCreated() {
+        return dateCreated;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

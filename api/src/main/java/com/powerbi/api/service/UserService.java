@@ -21,23 +21,10 @@ import java.util.NoSuchElementException;
 public class UserService {
     @Autowired
     private SuperUserRepository superUserRepository;
-    private final UserRepository userRepository;
-    private final PermissionService permissionService;
-
-    /**
-     * Constructs a UserService with the necessary dependencies.
-     *
-     * @param userRepository    the repository for User entities
-     * @param permissionService the service responsible for permission checks
-     */
     @Autowired
-    public UserService(
-            UserRepository userRepository,
-            PermissionService permissionService
-    ) {
-        this.userRepository = userRepository;
-        this.permissionService = permissionService;
-    }
+    private UserRepository userRepository;
+    @Autowired
+    private PermissionService permissionService;
 
     /**
      * Retrieves all users or users matching a search query.
@@ -55,11 +42,25 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    /**
+     * Retrieves a user by their email.
+     *
+     * @param email the email of the user to retrieve
+     * @return the User entity
+     * @throws NoSuchElementException if the user with the given email does not exist
+     */
     @Transactional
     public User getUser(String email) {
         return userRepository.findByEmail(email).orElseThrow();
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param userId the ID of the user to retrieve
+     * @return the User entity
+     * @throws NoSuchElementException if the user with the given ID does not exist
+     */
     @Transactional
     public User getUser(Long userId) {
         return userRepository.findById(userId).orElseThrow();

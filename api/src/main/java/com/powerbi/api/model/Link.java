@@ -16,6 +16,13 @@ import org.hibernate.validator.constraints.URL;
 
 import java.time.Instant;
 
+/**
+ * Represents a Link entity in the system.
+ * A link is associated with a user and contains metadata such as title, description, and URL.
+ * 
+ * Includes fields for the link's ID, URL, title, description, and creation date.
+ * This entity is mapped to a database table using JPA annotations.
+ */
 @Entity
 public class Link {
     @Id

@@ -51,5 +51,25 @@ public class LinkDTO {
     public Instant getDateCreated() {
         return dateCreated;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setDateCreated(Instant dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 }
 

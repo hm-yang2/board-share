@@ -145,6 +145,7 @@ public class ChannelLinkService {
      * @param channelLinkId the ID of the channel link to delete
      * @throws AccessDeniedException if the user does not have permission to delete the channel link
      */
+    @Transactional
     public void deleteChannelLink(String username, Long channelLinkId) {
         User user = userService.getUser(username);
         ChannelLink channelLink = channelLinkRepository.findById(channelLinkId).orElseThrow();

@@ -70,6 +70,7 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
           marginLeft={2}
           direction={"row"}
           justifyContent={"space-between"}
+          height={"5.5%"}
         >
           <Stack alignItems={"flex-start"}>
             <Typography level="h4">{content.title}</Typography>

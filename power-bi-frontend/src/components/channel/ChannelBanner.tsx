@@ -16,7 +16,7 @@ function ChannelBanner({ channel }: ChannelBannerProps) {
   return (
     <Box
       sx={{
-        width: "86vw",
+        width: "100%",
         height: "10vh",
         background:
           "linear-gradient(135deg,rgb(239, 239, 247),rgb(186, 181, 243))",

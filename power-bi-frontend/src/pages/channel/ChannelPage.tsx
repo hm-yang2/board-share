@@ -62,7 +62,7 @@ function ChannelPage() {
       .catch((error) => {
         console.error("Failed to fetch channel role:", error);
       });
-  }, [channelId]);
+  }, [channelId, navigate]);
 
   return (
     <Box
@@ -75,7 +75,7 @@ function ChannelPage() {
       flexDirection={"column"}
       alignItems={"center"}
     >
-      <Stack direction={"row"} width={"100%"} height={"100%"} gap={1}>
+      <Stack direction={"row"} width={"100%"} height={"100%"} gap={1.5}>
         <ChannelSidebar
           channel={channel}
           channelLinks={channelLinks}

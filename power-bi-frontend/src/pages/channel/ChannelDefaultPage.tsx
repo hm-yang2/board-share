@@ -54,9 +54,9 @@ export default function ChannelDefaultPage() {
       width={"90vw"}
       left={0}
       flexDirection={"column"}
-      alignItems={"center"}
+      alignItems={"flex-start"}
     >
-      <Stack display={"flex"} gap={2}>
+      <Stack display={"flex"} gap={2} width={"96%"}>
         <ChannelBanner channel={channel} />
         <Stack width={"90%"} textAlign={"left"} gap={2}>
           <Typography level="title-lg">Channel Reports</Typography>

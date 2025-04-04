@@ -114,7 +114,7 @@ export default function ChannelSettingsPage() {
       paddingBottom={4}
       display={"flex"}
       top={"7vh"}
-      width={"89vw"}
+      width={"88vw"}
       left={0}
       flexDirection={"column"}
       alignItems={"flex-start"}
@@ -179,7 +179,7 @@ export default function ChannelSettingsPage() {
         </Box>
 
         <Divider>
-          <Chip variant="solid" color="danger" size="md">
+          <Chip variant="solid" color="danger" size="lg">
             Danger Zone
           </Chip>
         </Divider>

@@ -81,7 +81,7 @@ export default function ChannelUsersPage() {
       paddingBottom={4}
       display={"flex"}
       top={"7vh"}
-      width={"89vw"}
+      width={"88vw"}
       left={0}
       flexDirection={"column"}
       alignItems={"flex-start"}

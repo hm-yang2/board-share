@@ -1,11 +1,4 @@
-import {
-  Card,
-  Stack,
-  Typography,
-  Chip,
-  IconButton,
-  Snackbar,
-} from "@mui/joy";
+import { Card, Stack, Typography, Chip, IconButton, Snackbar } from "@mui/joy";
 import { ChannelOwner } from "../../models/ChannelOwner";
 import { ChannelAdmin } from "../../models/ChannelAdmin";
 import { ChannelMember } from "../../models/ChannelMember";

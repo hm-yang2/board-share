@@ -13,7 +13,7 @@ import {
 } from "@mui/joy";
 import { Channel, ChannelRole } from "../models/Channel";
 import { GetChannelRole, GetChannels } from "../api/ChannelCalls";
-import LinkCardList from "../components/link/LinkCardList";
+import SmallLinkCardList from "../components/link/SmallLinkCardList";
 import ChannelsGrid from "../components/channel/ChannelsGrid";
 import { User } from "../models/User";
 import { GetSelf } from "../api/UserCalls";
@@ -31,16 +31,16 @@ function UserPage() {
     Map<number, ChannelRole["role"]>
   >(new Map());
 
-    useEffect(() => {
-      GetSelf().then((user) => {
-        if (user) {
-          setUser(user);
-          console.log(user);
-        }
-      });
-      GetLinks().then(setLinks);
-      GetChannels().then(setChannels);
-    }, []);
+  useEffect(() => {
+    GetSelf().then((user) => {
+      if (user) {
+        setUser(user);
+        console.log(user);
+      }
+    });
+    GetLinks().then(setLinks);
+    GetChannels().then(setChannels);
+  }, []);
 
   useEffect(() => {
     if (channels.length === 0) return; // Prevent unnecessary fetches
@@ -126,7 +126,7 @@ function UserPage() {
           </Tab>
         </TabList>
         <TabPanel value={0} sx={{ width: "100%" }}>
-          <LinkCardList items={links} channels={channels}/>
+          <SmallLinkCardList items={links} channels={channels} />
         </TabPanel>
         <TabPanel value={1} sx={{ width: "100%" }}>
           <ChannelsGrid channels={channels} channelRoles={channelRoles} />

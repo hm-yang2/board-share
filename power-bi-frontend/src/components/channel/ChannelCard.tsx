@@ -43,6 +43,9 @@ function ChannelCard({ channel, role }: ChannelCardProps) {
           "&:hover": {
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Slightly increased shadow on hover
           },
+          "&:active": {
+            transform: "scale(0.98)", // Slight press-down effect when clicked
+          },
         }}
       >
         <CardContent>

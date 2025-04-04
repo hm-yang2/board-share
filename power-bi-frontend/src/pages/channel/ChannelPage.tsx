@@ -76,11 +76,20 @@ function ChannelPage() {
       alignItems={"center"}
     >
       <Stack direction={"row"} width={"100%"} height={"100%"} gap={1.5}>
-        <ChannelSidebar
-          channel={channel}
-          channelLinks={channelLinks}
-          role={userRole}
-        />
+        <Box
+          sx={{
+            position: "sticky",
+            top: "7vh", // Adjust this value to match your layout
+            height: "calc(100vh - 20vh)", // Ensure it spans the remaining viewport height
+            overflowY: "auto", // Add scrolling if the sidebar content overflows
+          }}
+        >
+          <ChannelSidebar
+            channel={channel}
+            channelLinks={channelLinks}
+            role={userRole}
+          />
+        </Box>
         <Outlet />
       </Stack>
     </Box>

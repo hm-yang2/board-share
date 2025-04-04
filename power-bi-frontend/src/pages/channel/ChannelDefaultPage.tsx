@@ -1,12 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { GetChannel } from "../../api/ChannelCalls";
 import { GetChannelLinks } from "../../api/ChannelLinkCalls";
 import { Channel } from "../../models/Channel";
 import { ChannelLink } from "../../models/ChannelLink";
-import LinkCardList from "../../components/link/LinkCardList";
+import SmallLinkCardList from "../../components/link/SmallLinkCardList";
 import ChannelBanner from "../../components/channel/ChannelBanner";
-import { Box, Stack, Typography } from "@mui/joy";
+import {
+  Box,
+  Dropdown,
+  IconButton,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/joy";
+import LinkCardList from "../../components/link/LinkCardList";
+import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
+import ViewListIcon from "@mui/icons-material/ViewList";
 
 /**
  * Channel Default Page
@@ -22,6 +35,8 @@ export default function ChannelDefaultPage() {
     visibility: "PUBLIC",
     dateCreated: new Date(),
   });
+  const [isSmallCardView, setIsSmallCardView] = useState(false);
+  const [search, setSearch] = useState("");
   const { id } = useParams();
   const channelId = id; // Get channelId from URL params
 
@@ -46,12 +61,19 @@ export default function ChannelDefaultPage() {
       });
   }, [channelId]);
 
+  // Filter links based on the search query
+  const filteredLinks = useMemo(() => {
+    return channelLinks.filter((link) =>
+      link.link.title.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [channelLinks, search]);
+
   return (
     <Box
       paddingBottom={4}
       display={"flex"}
       top={"7vh"}
-      width={"90vw"}
+      width={"89vw"}
       left={0}
       flexDirection={"column"}
       alignItems={"flex-start"}
@@ -59,8 +81,65 @@ export default function ChannelDefaultPage() {
       <Stack display={"flex"} gap={2} width={"96%"}>
         <ChannelBanner channel={channel} />
         <Stack width={"90%"} textAlign={"left"} gap={2}>
-          <Typography level="title-lg">Channel Reports</Typography>
-          <LinkCardList items={channelLinks} />
+          <Stack direction={"row"} gap={3} alignItems={"center"}>
+            <Dropdown>
+              <MenuButton
+                slots={{ root: IconButton }}
+                slotProps={{ root: { variant: "outlined", color: "neutral" } }}
+                sx={{
+                  outline: "none",
+                  "&:focus": { outline: "none" },
+                }}
+                variant="plain"
+              >
+                {isSmallCardView ? <ViewListIcon /> : <ViewAgendaIcon />}
+              </MenuButton>
+              <Menu>
+                <MenuItem onClick={() => setIsSmallCardView(false)}>
+                  <ViewAgendaIcon />
+                  <Typography>Card View</Typography>
+                </MenuItem>
+                <MenuItem onClick={() => setIsSmallCardView(true)}>
+                  <ViewListIcon />
+                  <Typography>Compact View</Typography>
+                </MenuItem>
+              </Menu>
+            </Dropdown>
+            <Input
+              size="lg"
+              placeholder="Search reports..."
+              value={search}
+              autoFocus
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{
+                "--Input-radius": "0px",
+                borderBottom: "2px solid",
+                borderColor: "neutral.outlinedBorder",
+                "&:hover": {
+                  borderColor: "neutral.outlinedHoverBorder",
+                },
+                "&::before": {
+                  border: "1px solid var(--Input-focusedHighlight)",
+                  transform: "scaleX(0)",
+                  left: 0,
+                  right: 0,
+                  bottom: "-2px",
+                  top: "unset",
+                  transition: "transform .15s cubic-bezier(0.1,0.9,0.2,1)",
+                  borderRadius: 0,
+                },
+                "&:focus-within::before": {
+                  transform: "scaleX(1)",
+                },
+                width: "50vw",
+              }}
+            />
+          </Stack>
+          {isSmallCardView ? (
+            <SmallLinkCardList items={filteredLinks} />
+          ) : (
+            <LinkCardList items={filteredLinks} />
+          )}
         </Stack>
       </Stack>
     </Box>

@@ -7,7 +7,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { JSX } from "react/jsx-runtime";
 
 const Links = [
-  { name: "Home", path: "/", icon: <HomeIcon /> },
+  // { name: "Home", path: "/", icon: <HomeIcon /> },
   { name: "Add Link", path: "/create-link", icon: <AddIcon /> },
   { name: "Profile", path: "/profile", icon: <AccountCircle /> },
 ];
@@ -40,7 +40,10 @@ const NavLink = ({
       onClick={() => navigate(to)}
       variant={isActive ? "soft" : "plain"}
       startDecorator={icon}
-      sx={{ outline: "none", "&:focus": { outline: "none" } }}
+      sx={{
+        outline: "none",
+        "&:focus": { outline: "none" },
+      }}
     >
       <Typography level="h4" fontWeight="normal">
         {name}
@@ -55,6 +58,7 @@ const NavLink = ({
  * @returns The NavBar component.
  */
 function NavBar() {
+  const naviagte = useNavigate();
   return (
     <Box
       width="100%"
@@ -77,9 +81,17 @@ function NavBar() {
         justifyContent="left"
         width="100%"
       >
-        <Typography level="h3" fontWeight="normal">
-          Global OPS Dashboard
-        </Typography>
+        <Box onClick={() => naviagte("/")} sx={{ cursor: "pointer" }}>
+          <Typography
+            level="h3"
+            fontWeight="normal"
+            startDecorator={
+              <img src="/icon.svg" style={{ maxHeight: "40px" }}></img>
+            }
+          >
+            Global OPS Dashboard
+          </Typography>
+        </Box>
         <Stack direction={"row"} spacing={3}>
           {Links.map((link) => (
             <NavLink

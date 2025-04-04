@@ -19,11 +19,11 @@ import SuperUserPage from "./pages/SuperUserPage";
 
 /**
  * App Component
- * 
+ *
  * The root component of the application.
  * Sets up routing, authentication context, and the navigation bar.
  * Protects routes using the `ProtectedRoute` component to ensure only authenticated users can access certain pages.
- * 
+ *
  */
 function App() {
   return (

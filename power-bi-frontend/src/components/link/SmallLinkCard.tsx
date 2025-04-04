@@ -34,14 +34,22 @@ function SmallLinkCard({
     : `/link/${link.id}`;
   return (
     <Card
-      variant="outlined"
+      variant="plain"
       sx={{
         width: width ? width : "35vw",
         height: height ? height : "11vh",
         p: 1,
+        bgcolor: "rgb(247, 239, 239)",
+        transition: "all 0.3s ease-in-out",
+        "&:hover": {
+          boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.15)", // Soft shadow on hover
+        },
+        "&:active": {
+          transform: "scale(0.98)", // Slight press-down effect when clicked
+        },
       }}
     >
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack direction="row" spacing={2} alignItems="center">
         <iframe
           src={link.link}
           style={{

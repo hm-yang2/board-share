@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Channel } from "../../models/Channel";
-import {
-  Box,
-  Button,
-  Input,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/joy";
+import { Box, Button, Input, Stack, Tooltip, Typography } from "@mui/joy";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface LinkFormProps {
@@ -28,11 +21,7 @@ interface LinkFormProps {
  * @param handlePost Callback function to handle form submission.
  * @returns The LinkForm component.
  */
-function LinkForm({
-  setTitle,
-  setLink,
-  handlePost,
-}: LinkFormProps) {
+function LinkForm({ setTitle, setLink, handlePost }: LinkFormProps) {
   const [noTitle, setNoTitle] = useState(false);
   const [noLink, setNoLink] = useState(false);
 

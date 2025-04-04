@@ -35,8 +35,7 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
   };
 
   useEffect(() => {
-    const handleFullScreenChange = () => {
-    };
+    const handleFullScreenChange = () => {};
     const handleKeyPress = (event: { key: string }) => {
       if (event.key === "f" || event.key === "F") {
         enterFullScreen();
@@ -64,10 +63,12 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
           width: "100%",
           overflow: "auto",
           display: "flex",
+          bgcolor: "rgb(247, 239, 239)",
         }}
       >
         <Stack
           marginLeft={2}
+          marginBottom={1}
           direction={"row"}
           justifyContent={"space-between"}
           height={"5.5%"}

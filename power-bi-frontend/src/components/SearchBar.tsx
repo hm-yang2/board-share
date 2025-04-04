@@ -11,12 +11,9 @@ interface SearchBarProps {
  * @returns The SearchBar component.
  */
 function SearchBar({ onSearch }: SearchBarProps) {
-  const [search, setSearch] = useState("");
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      onSearch(search);
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    onSearch(query);
   };
 
   return (
@@ -26,8 +23,7 @@ function SearchBar({ onSearch }: SearchBarProps) {
         startDecorator={<SearchIcon />}
         placeholder="Search channels"
         autoFocus
-        onChange={(e) => setSearch(e.target.value)}
-        onKeyDown={handleKeyDown}
+        onChange={handleChange}
         sx={{
           "--Input-radius": "0px",
           borderBottom: "2px solid",

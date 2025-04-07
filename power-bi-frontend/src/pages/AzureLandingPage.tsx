@@ -26,7 +26,6 @@ function AzureLandingPage() {
   useEffect(() => {
     const code = searchParams.get("code");
     if (!code) {
-      console.log("No Code found");
       setOpenSnack(true);
       return;
     }
@@ -34,7 +33,6 @@ function AzureLandingPage() {
     GetJWTTokens(code)
       .then((success) => {
         if (success) {
-          console.log("JWT tokens obtained successfully.");
           setAuth(true);
           navigate("/");
         } else {

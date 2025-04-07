@@ -42,7 +42,6 @@ export async function GetUser(userId: number) {
 export async function GetSelf() {
   try {
     const response = await axiosInstance.get(`/api/user/self`);
-    console.log(response.data);
     const user: User = response.data;
     return user;
   } catch (error) {

@@ -35,7 +35,6 @@ function UserPage() {
     GetSelf().then((user) => {
       if (user) {
         setUser(user);
-        console.log(user);
       }
     });
     GetLinks().then(setLinks);

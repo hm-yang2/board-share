@@ -18,7 +18,6 @@ function HomePage() {
   const handleSearch = (search: string) => {
     GetChannels(search)
       .then((channels) => {
-        console.log("Channels:", channels);
         setChannels(channels);
       })
       .catch((error) => {

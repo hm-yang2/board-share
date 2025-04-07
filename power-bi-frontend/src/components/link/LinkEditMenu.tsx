@@ -90,16 +90,18 @@ function EditLinkMenu({ link, channelLink, channels }: EditLinkMenuProps) {
     window.location.reload();
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     try {
       if (channelLink) {
-        await DeleteChannelLink(channelLink.id, channelLink.id);
-        navigate(`/channel/${channelLink.channel.id}`);
-        window.location.reload();
+        DeleteChannelLink(channelLink.id, channelLink.id).then(() => {
+          navigate(`/channel/${channelLink.channel.id}`);
+          window.location.reload();
+        });
       } else {
-        await DeleteLink(link.id);
-        navigate("/profile");
-        window.location.reload();
+        DeleteLink(link.id).then(() => {
+          navigate("/profile");
+          window.location.reload();
+        });
       }
       handleDeleteClose();
     } catch (error) {

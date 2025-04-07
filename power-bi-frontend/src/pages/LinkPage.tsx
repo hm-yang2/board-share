@@ -18,7 +18,6 @@ function LinkPage() {
     if (id) {
       GetLink(Number(id))
         .then((gottenLink) => {
-          console.log(gottenLink);
           setLink(gottenLink);
         })
         .catch((error) => {

@@ -94,7 +94,6 @@ export default function ChannelSettingsPage() {
     if (!channelId) return;
     DeleteChannel(Number(channelId))
       .then((result) => {
-        console.log(result);
         if (result) {
           navigate("/");
         } else {

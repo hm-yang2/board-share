@@ -33,7 +33,15 @@ function HomePage() {
   }, []);
 
   return (
-    <Box>
+    <Box
+      display={"flex"}
+      position={"absolute"}
+      minWidth={"99vw"}
+      top={"8vh"}
+      left={0}
+      flexDirection={"column"}
+      alignItems={"center"}
+    >
       <Stack direction="column" gap={3} width={"75vw"}>
         <SearchBar onSearch={handleSearch} />
         <Stack minHeight={"80vh"} gap={3}>

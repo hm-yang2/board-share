@@ -23,16 +23,13 @@ test.describe.serial("Permission Flow", () => {
       page.getByRole("heading", { name: "Channel Users" }),
     ).toBeVisible();
     await expect(page.getByRole("heading", { name: "Admins" })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Settings' })).toBeHidden();
+    await expect(page.getByRole("button", { name: "Settings" })).toBeHidden();
   });
 
   test("member-channel-no-users", async ({ page }) => {
     await page.goto("http://localhost:5173/");
-    await page
-      .locator("a")
-      .filter({ hasText: "Member Channel" })
-      .click();
-    await expect(page.getByRole('button', { name: 'Users' })).toBeHidden();
-    await expect(page.getByRole('button', { name: 'Settings' })).toBeHidden();
+    await page.locator("a").filter({ hasText: "Member Channel" }).click();
+    await expect(page.getByRole("button", { name: "Users" })).toBeHidden();
+    await expect(page.getByRole("button", { name: "Settings" })).toBeHidden();
   });
 });

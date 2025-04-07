@@ -57,7 +57,6 @@ function CreateChannelButton() {
       .then((createdChannel) => {
         setOpenModal(false);
         if (createdChannel) {
-          console.log("Channel created successfully:", createdChannel);
           navigate(`/channel/${createdChannel.id}`);
         } else {
           setGotError(true);
@@ -106,10 +105,15 @@ function CreateChannelButton() {
               <ButtonGroup>
                 <Tooltip title="Channel visible to all users" size="sm">
                   <Button
-                    variant={isPublic ? "solid" : "plain"}
+                    variant={isPublic ? "solid" : "soft"}
                     onClick={() => {
                       setVisibility("PUBLIC");
                       setIsPublic(true);
+                    }}
+                    color={isPublic ? "success" : "neutral"}
+                    sx={{
+                      outline: "none",
+                      "&:focus": { outline: "none" },
                     }}
                   >
                     Public
@@ -117,10 +121,15 @@ function CreateChannelButton() {
                 </Tooltip>
                 <Tooltip title="Channel only visible to members" size="sm">
                   <Button
-                    variant={!isPublic ? "solid" : "plain"}
+                    variant={!isPublic ? "solid" : "soft"}
                     onClick={() => {
                       setVisibility("PRIVATE");
                       setIsPublic(false);
+                    }}
+                    color={!isPublic ? "success" : "neutral"}
+                    sx={{
+                      outline: "none",
+                      "&:focus": { outline: "none" },
                     }}
                   >
                     Private

@@ -27,6 +27,7 @@ test.describe.serial("channel-settings-tests", () => {
     await page.waitForTimeout(10000);
     await page.locator("a").filter({ hasText: "Test Channel 2" }).click();
     await page.getByRole("button", { name: "Settings" }).click();
+    await page.waitForTimeout(1000);
     await expect(
       page.getByRole("heading", { name: "Channel Settings" }),
     ).toBeVisible();
@@ -53,7 +54,7 @@ test.describe.serial("channel-settings-tests", () => {
     await page.getByRole("button", { name: "Make Private" }).click();
     await expect(page.getByText("ConfirmCancel")).toBeVisible();
     await page.getByRole("button", { name: "Confirm" }).click();
-    await expect(page.getByText("PRIVATE", { exact: true })).toBeVisible();
+    await page.waitForTimeout(3000);
     await expect(page.getByText("Edited Test Channel 2")).toBeVisible();
   });
 

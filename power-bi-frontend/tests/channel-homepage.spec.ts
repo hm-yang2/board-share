@@ -7,10 +7,7 @@ test.describe.serial("channel-homepage-tests", () => {
     await page.getByRole("textbox", { name: "Name" }).click();
     await page.getByRole("textbox", { name: "Name" }).fill("Test Channel 1");
     await page.getByRole("button", { name: "Create Channel" }).click();
-    await page
-      .getByRole("list")
-      .getByRole("button", { name: "Add Post" })
-      .click();
+    await page.goto("http://localhost:5173/create-post");
     await page.getByRole("textbox", { name: "Enter title here..." }).click();
     await page
       .getByRole("textbox", { name: "Enter title here..." })
@@ -19,6 +16,8 @@ test.describe.serial("channel-homepage-tests", () => {
     await page
       .getByRole("textbox", { name: "Enter link here..." })
       .fill("https://www.example.com");
+    await page.getByRole("button", { name: "Select Channel" }).click();
+    await page.getByRole("button", { name: "Test Channel 1" }).click();
     await page.getByRole("button", { name: "Post", exact: true }).click();
   });
 

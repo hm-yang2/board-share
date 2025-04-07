@@ -62,7 +62,7 @@ test.describe.serial("channel-users-tests", () => {
     ).toBeVisible();
     await page
       .locator("div")
-      .filter({ hasText: /^Membersbob@gmail\.comJoined on 4\/4\/2025MEMBER$/ })
+      .filter({ hasText: /^Membersbob@gmail\.com/ })
       .getByRole("button")
       .click();
     await expect(page.getByRole("heading", { name: "Members" })).toBeVisible();

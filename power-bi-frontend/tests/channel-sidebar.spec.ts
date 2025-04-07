@@ -58,6 +58,7 @@ test.describe.serial("channel-sidebar-tests", () => {
 
   test("channel-sidebar-tests-cleanup", async ({ page }) => {
     await page.goto("http://localhost:5173/");
+    await page.waitForTimeout(10000);
     await page.getByRole("textbox", { name: "Search channels" }).click();
     await page.locator("a").filter({ hasText: "Test Channel 3" }).click();
     await page.getByRole("button", { name: "Settings" }).click();

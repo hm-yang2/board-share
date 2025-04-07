@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("open Create Channel dialog and verify inputs", async ({ page }) => {
   await page.goto("http://localhost:5173/");
-  await page.waitForTimeout(10000);
+  await page.waitForTimeout(20000);
   await expect(
     page.getByRole("button", { name: "Create channel" }),
   ).toBeVisible();

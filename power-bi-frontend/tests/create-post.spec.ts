@@ -77,41 +77,26 @@ test.describe.serial("successful-add-post-with-channel", () => {
   });
 });
 
-test.describe("successful-add-post-no-channel", () => {
-  test("add-post-no-channel", async ({ page }) => {
-    await page.goto("http://localhost:5173/login");
-    await page.waitForTimeout(10000);
-    await page.goto("http://localhost:5173/create-post");
-    await page.getByRole("textbox", { name: "Enter title here..." }).click();
-    await page
-      .getByRole("textbox", { name: "Enter title here..." })
-      .fill("Test post");
-    await page.getByRole("textbox", { name: "Enter link here..." }).click();
-    await page
-      .getByRole("textbox", { name: "Enter link here..." })
-      .fill("https://www.example.com");
-    await page.getByRole("button", { name: "Post", exact: true }).click();
-    await expect(
-      page
-        .locator('iframe[title="Test post"]')
-        .contentFrame()
-        .getByRole("heading", { name: "Example Domain" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Test post" }),
-    ).toBeVisible();
-  });
-
-  test("add-post-no-channel-cleanup", async ({ page }) => {
-    await page.goto("http://localhost:5173/login");
-    await page.waitForTimeout(10000);
-    await page.goto("http://localhost:5173/");
-    await page.getByRole("button", { name: "Profile" }).click();
-    await page.getByRole("link", { name: "Test post" }).first().click();
-    await page.getByRole("button").nth(3).click();
-    await page.getByRole("menuitem", { name: "Delete" }).click();
-    await page.getByRole("button", { name: "Delete" }).click();
-  });
+test("add-post-no-channel", async ({ page }) => {
+  await page.goto("http://localhost:5173/login");
+  await page.waitForTimeout(10000);
+  await page.goto("http://localhost:5173/create-post");
+  await page.getByRole("textbox", { name: "Enter title here..." }).click();
+  await page
+    .getByRole("textbox", { name: "Enter title here..." })
+    .fill("Test post");
+  await page.getByRole("textbox", { name: "Enter link here..." }).click();
+  await page
+    .getByRole("textbox", { name: "Enter link here..." })
+    .fill("https://www.example.com");
+  await page.getByRole("button", { name: "Post", exact: true }).click();
+  await expect(
+    page
+      .locator('iframe[title="Test post"]')
+      .contentFrame()
+      .getByRole("heading", { name: "Example Domain" }),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Test post" })).toBeVisible();
 });
 
 test("fail-add-post-no-link", async ({ page }) => {

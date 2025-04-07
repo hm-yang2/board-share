@@ -64,16 +64,16 @@ export default function ChannelSidebar({
         </ListItemButton>
         <ListItemButton onClick={() => setOpen(true)}>
           <AssignmentIcon />
-          <Typography level="body-lg">Links</Typography>
+          <Typography level="body-lg">Posts</Typography>
         </ListItemButton>
 
         <Drawer open={open} onClose={() => setOpen(false)} size="sm">
           <Box sx={{ p: 2, bgcolor: "background.surface", width: 320 }}>
             <Typography level="h4" sx={{ mb: 2 }}>
-              Search Links
+              Posts
             </Typography>
             <Input
-              placeholder="Search links..."
+              placeholder="Search posts..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -104,10 +104,10 @@ export default function ChannelSidebar({
         </Drawer>
 
         <ListItemButton
-          onClick={() => navigate(`/create-link?channelId=${channel.id}`)}
+          onClick={() => navigate(`/create-post?channelId=${channel.id}`)}
         >
           <AddIcon />
-          <Typography level="body-lg">Add Link</Typography>
+          <Typography level="body-lg">Add Post</Typography>
         </ListItemButton>
 
         {/* Show Users button only if the user is an Admin or higher */}

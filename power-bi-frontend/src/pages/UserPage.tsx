@@ -119,7 +119,7 @@ function UserPage() {
       >
         <TabList>
           <Tab sx={{ outline: "none", "&:focus": { outline: "none" } }}>
-            Links
+            Posts
           </Tab>
           <Tab sx={{ outline: "none", "&:focus": { outline: "none" } }}>
             Channels

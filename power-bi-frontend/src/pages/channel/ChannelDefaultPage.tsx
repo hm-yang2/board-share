@@ -91,6 +91,7 @@ export default function ChannelDefaultPage() {
                   "&:focus": { outline: "none" },
                 }}
                 variant="plain"
+                size="lg"
               >
                 {isSmallCardView ? <ViewListIcon /> : <ViewAgendaIcon />}
               </MenuButton>
@@ -107,7 +108,7 @@ export default function ChannelDefaultPage() {
             </Dropdown>
             <Input
               size="lg"
-              placeholder="Search reports..."
+              placeholder="Search posts..."
               value={search}
               autoFocus
               onChange={(e) => setSearch(e.target.value)}

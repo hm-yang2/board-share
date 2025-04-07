@@ -1,8 +1,7 @@
-import { Box, Divider, Link as JoyLink, Stack } from "@mui/joy";
+import { Divider, Link as JoyLink, Stack } from "@mui/joy";
 import { Channel } from "../../models/Channel";
 import { ChannelLink } from "../../models/ChannelLink";
 import LinkCard from "./LinkCard";
-import { useNavigate } from "react-router-dom";
 import { Link } from "../../models/Link";
 
 interface LinkCardListProps {
@@ -18,7 +17,7 @@ interface LinkCardListProps {
  */
 function LinkCardList({ items, channels }: LinkCardListProps) {
   if (items.length < 1) {
-    return <> NO REPORTS</>;
+    return <> NO POSTS</>;
   }
 
   return (

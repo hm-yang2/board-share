@@ -106,7 +106,7 @@ function AddChannelUserButton({
         Add User
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <ModalDialog minWidth={"30vw"}>
+        <ModalDialog minWidth={"30vw"} sx={{ overflow: "auto" }}>
           <ModalClose />
           <Stack spacing={2}>
             <Typography level="h4">Add User to Channel</Typography>

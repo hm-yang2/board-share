@@ -36,7 +36,7 @@ function LinkChannelMenu({ channel, setChannel }: LinkChannelMenuProps) {
           sx={{ outline: "none", "&:focus": { outline: "none" } }}
         >
           {channel == null
-            ? "Select Channels"
+            ? "Select Channel"
             : "Selected Channel: " + channel.name}
         </MenuButton>
         <Menu>

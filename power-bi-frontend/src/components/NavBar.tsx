@@ -8,7 +8,7 @@ import { JSX } from "react/jsx-runtime";
 
 const Links = [
   // { name: "Home", path: "/", icon: <HomeIcon /> },
-  { name: "Add Link", path: "/create-link", icon: <AddIcon /> },
+  { name: "Add Post", path: "/create-post", icon: <AddIcon /> },
   { name: "Profile", path: "/profile", icon: <AccountCircle /> },
 ];
 

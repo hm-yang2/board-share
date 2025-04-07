@@ -17,7 +17,7 @@ interface SmallLinkCardListProps {
  */
 function SmallLinkCardList({ items, channels }: SmallLinkCardListProps) {
   if (items.length < 1) {
-    return <> NO REPORTS</>;
+    return <> NO POSTS</>;
   }
   return (
     <>

@@ -74,7 +74,7 @@ function App() {
               }
             />
             <Route
-              path="/create-link"
+              path="/create-post"
               element={
                 <ProtectedRoute>
                   <CreateLinkPage />

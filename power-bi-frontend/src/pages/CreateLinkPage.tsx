@@ -114,7 +114,7 @@ function CreateLinkPage() {
           </IconButton>
         }
       >
-        <Typography>Unable to create post</Typography>
+        <Typography>Unable to create post. Invalid link</Typography>
       </Snackbar>
     </Box>
   );

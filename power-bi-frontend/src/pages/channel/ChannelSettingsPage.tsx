@@ -130,7 +130,7 @@ export default function ChannelSettingsPage() {
           />
         </Stack>
         <Stack spacing={2} width="100%" alignItems={"flex-start"}>
-          <Typography level="body-lg">Channel Description</Typography>
+          <Typography level="title-lg">Channel Description</Typography>
           <Textarea
             sx={{ width: "100%" }}
             value={editedChannel.description}
@@ -139,7 +139,7 @@ export default function ChannelSettingsPage() {
           />
         </Stack>
         <Stack spacing={2} alignItems="flex-start">
-          <Typography level="body-lg">Visibility</Typography>
+          <Typography level="title-lg">Visibility</Typography>
           <Stack direction="row" spacing={2}>
             <Button
               color="primary"
@@ -184,7 +184,7 @@ export default function ChannelSettingsPage() {
           </Chip>
         </Divider>
         <Stack spacing={1} alignItems="flex-start">
-          <Typography>Delete Channel</Typography>
+          <Typography level="title-lg">Delete Channel</Typography>
           <Button color="danger" onClick={handleDelete}>
             Delete Channel
           </Button>

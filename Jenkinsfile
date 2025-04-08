@@ -15,7 +15,7 @@ pipeline {
 
         stage('Inject API .env from Jenkins Secret File') {
             steps {
-                withCredentials([file(credentialsId: 'BoardShare API Secrets', variable: 'ENV_FILE')]) {
+                withCredentials([file(credentialsId: '126d4149-50fe-49db-9e09-cfa6dd604c91', variable: 'ENV_FILE')]) {
                     bat """
                         copy /Y "%ENV_FILE%" "api\\.env"
                     """

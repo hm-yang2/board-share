@@ -1,7 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import { AccountCircle } from "@mui/icons-material";
 import { JSX } from "react/jsx-runtime";
@@ -89,7 +88,7 @@ function NavBar() {
               <img src="/icon.svg" style={{ maxHeight: "40px" }}></img>
             }
           >
-            Global OPS Dashboard
+            BoardShare
           </Typography>
         </Box>
         <Stack direction={"row"} spacing={3}>

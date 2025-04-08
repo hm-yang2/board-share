@@ -1,2 +1,2 @@
-# power-bi-backend
- Django backend to save power BI links
+# Board Share
+ Website that consolidates and share dashboard links

@@ -15,7 +15,7 @@ interface LinkCardListProps {
  * @param channels The list of channels (optional).
  * @returns The LinkCardList component.
  */
-function LinkCardList({ items, channels }: LinkCardListProps) {
+function LinkCardList({ items }: LinkCardListProps) {
   if (items.length < 1) {
     return <> NO POSTS</>;
   }

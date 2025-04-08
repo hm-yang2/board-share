@@ -1,5 +1,4 @@
 import { Box, Input } from "@mui/joy";
-import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
 interface SearchBarProps {

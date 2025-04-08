@@ -4,12 +4,14 @@ import { Link } from "../../models/Link";
 import LinkEditMenu from "./LinkEditMenu";
 import { useEffect, useRef } from "react";
 import { FullscreenOutlined } from "@mui/icons-material";
+import { Channel } from "../../models/Channel";
 
 interface LinkCardProps {
   link: Link;
   channelLink?: ChannelLink;
   height?: string;
   width?: string;
+  channels?: Channel[]
 }
 
 /**
@@ -21,7 +23,7 @@ interface LinkCardProps {
  * @param height The height of the card (optional).
  * @returns The LinkCard component.
  */
-function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
+function LinkCard({ link, channelLink, width, height, channels }: LinkCardProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Parsing link data
@@ -81,7 +83,7 @@ function LinkCard({ link, channelLink, width, height }: LinkCardProps) {
           </Stack>
           <Stack direction={"row"}>
             <EnterFullScreenButton handleFullScreen={enterFullScreen} />
-            <LinkEditMenu link={link} channelLink={channelLink} />
+            <LinkEditMenu link={link} channels={channels} channelLink={channelLink} />
           </Stack>
         </Stack>
         <iframe

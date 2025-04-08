@@ -125,7 +125,7 @@ function UserPage() {
           </Tab>
         </TabList>
         <TabPanel value={0} sx={{ width: "100%" }}>
-          <SmallLinkCardList items={links} channels={channels} />
+          <SmallLinkCardList items={links} channels={channels}/>
         </TabPanel>
         <TabPanel value={1} sx={{ width: "100%" }}>
           <ChannelsGrid channels={channels} channelRoles={channelRoles} />

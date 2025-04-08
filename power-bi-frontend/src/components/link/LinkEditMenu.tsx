@@ -16,6 +16,7 @@ import {
   FormLabel,
   Typography,
   Stack,
+  Snackbar,
 } from "@mui/joy";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -32,6 +33,7 @@ import { DeleteLink, UpdateLink } from "../../api/LinkCalls";
 import { useNavigate } from "react-router-dom";
 import { Channel } from "../../models/Channel";
 import { ChannelLinkDTO } from "../../models/ChannelLinkDTO";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface EditLinkMenuProps {
   link: Link;
@@ -56,6 +58,9 @@ function EditLinkMenu({ link, channelLink, channels }: EditLinkMenuProps) {
 
   const [channelLinkDTO, setChannelLinkDTO] = useState<ChannelLinkDTO>();
 
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   // Open & close functions
@@ -75,32 +80,53 @@ function EditLinkMenu({ link, channelLink, channels }: EditLinkMenuProps) {
     setChannelLinkDTO(undefined); // Reset the selected channel
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (channelLink) {
-      await UpdateChannelLink(channelLink.id, {
+      UpdateChannelLink(channelLink.id, {
         ...channelLink,
         title, // Only update title for channel links
         linkId: link.id,
         channelId: channelLink.id,
+      }).then((success) => {
+        if (success == null) {
+          setError(true);
+          setErrorMessage("Unable to edit post");
+        }
       });
     } else {
-      await UpdateLink({ ...link, title, link: newLink });
+      UpdateLink({ ...link, title, link: newLink }).then((success) => {
+        if (success == null) {
+          setError(true);
+          setErrorMessage("Unable to edit post");
+        }
+      });
     }
     handleEditClose();
-    window.location.reload();
+    setTimeout(() => window.location.reload(), 1500);
   };
 
   const handleDelete = () => {
     try {
-      if (channelLink) {
-        DeleteChannelLink(channelLink.id, channelLink.id).then(() => {
-          navigate(`/channel/${channelLink.channel.id}`);
-          window.location.reload();
+      if (channelLink !== undefined) {
+        DeleteChannelLink(channelLink.id, channelLink.id).then((success) => {
+          if (success === false) {
+            setError(true);
+            setErrorMessage("Failed to delete post");
+          } else {
+            navigate(`/channel/${channelLink.channel.id}`);
+            window.location.reload();
+          }
         });
       } else {
-        DeleteLink(link.id).then(() => {
-          navigate("/profile");
-          window.location.reload();
+        DeleteLink(link.id).then((success) => {
+          console.log(link)
+          if (success === false) {
+            setError(true);
+            setErrorMessage("Failed to delete post");
+          } else {
+            navigate("/profile");
+            window.location.reload();
+          }
         });
       }
       handleDeleteClose();
@@ -248,6 +274,21 @@ function EditLinkMenu({ link, channelLink, channels }: EditLinkMenuProps) {
           </DialogActions>
         </ModalDialog>
       </Modal>
+      <Snackbar
+        open={error}
+        autoHideDuration={3000}
+        variant="solid"
+        color="warning"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        endDecorator={
+          <IconButton variant="plain" onClick={() => setError(false)}>
+            <CloseIcon />
+          </IconButton>
+        }
+        onClose={() => setError(false)}
+      >
+        <Typography>{errorMessage}</Typography>
+      </Snackbar>
     </>
   );
 }

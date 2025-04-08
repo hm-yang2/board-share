@@ -4,6 +4,8 @@ import LinkCard from "../components/link/LinkCard";
 import { Link } from "../models/Link";
 import { GetLink } from "../api/LinkCalls";
 import { Box } from "@mui/joy";
+import { Channel } from "../models/Channel";
+import { GetChannels } from "../api/ChannelCalls";
 
 /**
  * Link Page
@@ -13,6 +15,7 @@ import { Box } from "@mui/joy";
 function LinkPage() {
   const { id } = useParams(); // Get the linkId from the URL
   const [link, setLink] = useState<Link | null>(null); // State to hold the fetched link
+  const [avaliableChannels, setAvaliableChannels] = useState<Channel[]>([]);
 
   useEffect(() => {
     if (id) {
@@ -24,6 +27,9 @@ function LinkPage() {
           console.error(error);
           setLink(null);
         });
+      GetChannels().then((channels) => {
+        setAvaliableChannels(channels);
+      })
     }
   }, [id]); // Fetch link when the linkId in the URL changes
 
@@ -42,7 +48,7 @@ function LinkPage() {
       flexDirection={"column"}
       alignItems={"center"}
     >
-      <LinkCard link={link} width="100vw" height="89vh" />
+      <LinkCard link={link} channels={avaliableChannels} width="100vw" height="89vh" />
     </Box>
   );
 }

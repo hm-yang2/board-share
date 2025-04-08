@@ -68,23 +68,23 @@ pipeline {
         }
 
 
-        stage('Build React Frontend') {
-            steps {
-                dir('frontend') {
-                    sh 'npm ci'
-                    sh 'npm run build'
-                }
-            }
-        }
+        // stage('Build React Frontend') {
+        //     steps {
+        //         dir('frontend') {
+        //             sh 'npm ci'
+        //             sh 'npm run build'
+        //         }
+        //     }
+        // }
 
-        stage('Deploy') {
-            steps {
-                echo '🚀 Deploy your artifacts here...'
-                // Example:
-                // sh 'scp api/target/app.jar user@your-server:/deploy/path/'
-                // sh 'scp -r frontend/build user@your-server:/deploy/path/frontend/'
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         echo '🚀 Deploy your artifacts here...'
+        //         // Example:
+        //         // sh 'scp api/target/app.jar user@your-server:/deploy/path/'
+        //         // sh 'scp -r frontend/build user@your-server:/deploy/path/frontend/'
+        //     }
+        // }
 
         stage('Cleanup .env') {
             steps {

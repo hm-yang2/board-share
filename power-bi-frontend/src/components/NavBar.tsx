@@ -88,7 +88,7 @@ function NavBar() {
               <img src="/icon.svg" style={{ maxHeight: "40px" }}></img>
             }
           >
-            BoardShare
+            Global OPS Dashboard
           </Typography>
         </Box>
         <Stack direction={"row"} spacing={3}>

@@ -13,36 +13,15 @@ pipeline {
             }
         }
 
-        stage('Create API .env') {
+        stage('Inject API .env from Jenkins Secret File') {
             steps {
-                withCredentials([
-                    string(credentialsId: 'db-url', variable: 'DB_URL'),
-                    string(credentialsId: 'db-user', variable: 'DB_USERNAME'),
-                    string(credentialsId: 'db-pass', variable: 'DB_PASSWORD'),
-                    string(credentialsId: 'jwt-secret', variable: 'JWT_SECRET'),
-                    string(credentialsId: 'azure-client-id', variable: 'AZURE_CLIENT_ID'),
-                    string(credentialsId: 'azure-client-secret', variable: 'AZURE_CLIENT_SECRET'),
-                    string(credentialsId: 'azure-tenant-id', variable: 'AZURE_TENANT_ID'),
-                    string(credentialsId: 'azure-redirect-url', variable: 'AZURE_REDIRECT_URL')
-                ]) {
-                    script {
-                        writeFile file: "${SPRING_ENV_FILE}", text: """
-                            DB_URL=${DB_URL}
-                            DB_USERNAME=${DB_USERNAME}
-                            DB_PASSWORD=${DB_PASSWORD}
-
-                            JWT_SECRET=${JWT_SECRET}
-
-                            AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
-                            AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
-                            AZURE_TENANT_ID=${AZURE_TENANT_ID}
-                            AZURE_REDIRECT_URL=${AZURE_REDIRECT_URL}
-                        """
-                    }
+                withCredentials([file(credentialsId: 'BoardShare API Secrets', variable: 'ENV_FILE')]) {
+                    bat """
+                        copy /Y "%ENV_FILE%" "api\\.env"
+                    """
                 }
             }
         }
-
 
         stage('Build Spring Boot') {
             steps {

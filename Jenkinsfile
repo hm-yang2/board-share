@@ -88,7 +88,7 @@ pipeline {
 
         stage('Cleanup .env') {
             steps {
-                sh "rm -f ${SPRING_ENV_FILE}"
+                bat "rm -f ${SPRING_ENV_FILE}"
             }
         }
     }

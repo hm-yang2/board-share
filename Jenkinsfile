@@ -103,12 +103,11 @@ pipeline {
             }
         }
 
-        stage('Deploy on IIS') {
+        stage('Move React distributin to IIS folder') {
             steps {
-                echo '🚀 Deploy your artifacts here...'
                 dir ('power-bi-frontend') {
                     bat '''
-                        xcopy dist "C:\\Users\\SRVMTDDIGITS\\Documents\\PowerBi_frontend"
+                        xcopy dist "C:\\Users\\SRVMTDDIGITS\\Documents\\PowerBi_frontend" /E
                     '''
                 }
                 // Example:

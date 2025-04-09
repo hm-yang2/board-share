@@ -1,5 +1,6 @@
 package com.powerbi.api;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,8 @@ public class ApiApplication {
      * @param args command-line arguments passed to the application
      */
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.load();  // Loads .env file
+		System.out.println("DB_URL from .env: " + dotenv.get("DB_URL"));
 		SpringApplication.run(ApiApplication.class, args);
 	}
 }

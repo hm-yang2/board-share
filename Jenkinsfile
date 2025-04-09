@@ -27,7 +27,7 @@ pipeline {
             steps {
                 bat '''
                     REM Load environment variables from the .env file
-                    for /f "usebackq tokens=1,2 delims==" %%A in ("api\\.env") do (
+                    for /f "usebackq tokens=1* delims==" %%A in ("api\\.env") do (
                         set %%A=%%B
                     )
                     REM Verify environment variables

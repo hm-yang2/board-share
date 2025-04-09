@@ -13,30 +13,6 @@ pipeline {
             }
         }
 
-        stage('Inject API .env from Jenkins Secret File') {
-            steps {
-                withCredentials([file(credentialsId: '126d4149-50fe-49db-9e09-cfa6dd604c91', variable: 'ENV_FILE')]) {
-                    bat """
-                        copy /Y "%ENV_FILE%" "api\\.env"
-                    """
-                }
-            }
-        }
-
-        stage('Load .env Variables') {
-            steps {
-                bat '''
-                    REM Load environment variables from the .env file
-                    for /f "usebackq tokens=1* delims==" %%A in ("api\\.env") do (
-                        set %%A=%%B
-                    )
-                    REM Verify environment variables
-                    echo %SERVER_PORT%
-                    echo %DB_URL%
-                '''
-            }
-        }
-
         stage('Stop and remove Spring Boot API service') {
             steps {
                 script {
@@ -66,6 +42,16 @@ pipeline {
             }
         }
 
+        stage('Inject API .env from Jenkins Secret File') {
+            steps {
+                withCredentials([file(credentialsId: '126d4149-50fe-49db-9e09-cfa6dd604c91', variable: 'ENV_FILE')]) {
+                    bat """
+                        copy /Y "%ENV_FILE%" "api\\build\\libs"
+                    """
+                }
+            }
+        }
+
         stage('Deploy Spring Boot API as Windows Service') {
             steps {
                 script {
@@ -84,7 +70,7 @@ pipeline {
                     REM Stop and remove existing service if exists
                     ${nssmPath} stop PowerBiApiService
                     ${nssmPath} remove PowerBiApiService confirm
-                    
+
                     REM Install the new service
                     ${nssmPath} install PowerBiApiService ${javaPath} -jar "${jarPath}"
 

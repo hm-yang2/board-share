@@ -26,7 +26,7 @@ pipeline {
         stage('Build Spring Boot') {
             steps {
                 dir('api') {
-                    bat './gradlew clean build'
+                    bat './gradlew clean build --no-deamon'
                 }
             }
         }
@@ -88,7 +88,7 @@ pipeline {
 
         stage('Cleanup .env') {
             steps {
-                bat "rm -f ${SPRING_ENV_FILE}"
+                bat "if exist ${SPRING_ENV_FILE} del /f /q ${SPRING_ENV_FILE}"
             }
         }
     }

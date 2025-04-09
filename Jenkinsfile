@@ -26,7 +26,7 @@ pipeline {
         stage('Build Spring Boot') {
             steps {
                 dir('api') {
-                    bat './gradlew clean build --no-deamon'
+                    bat './gradlew clean build --no-daemon'
                 }
             }
         }

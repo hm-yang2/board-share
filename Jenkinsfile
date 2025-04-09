@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SPRING_ENV_FILE = 'api/.env'
+        SPRING_ENV_FILE = 'api\\.env'
         IIS_DEPLOY_DIR = 'C:\\inetpub\\wwwroot\\powerbi'
     }
 
@@ -20,6 +20,19 @@ pipeline {
                         copy /Y "%ENV_FILE%" "api\\.env"
                     """
                 }
+            }
+        }
+
+        stage('Load .env Variables') {
+            steps {
+                bat '''
+                    REM Load environment variables from the .env file
+                    for /f "usebackq tokens=1,2 delims==" %%A in ("api.env") do (
+                        set %%A=%%B
+                    )
+                    REM Verify environment variables
+                    echo %SERVER_PORT%
+                '''
             }
         }
 

@@ -51,7 +51,7 @@ pipeline {
                     ${nssmPath} remove PowerBiApiService confirm
 
                     REM Install the new service
-                    ${nssmPath} install PowerBiApiService "${javaPath}" -jar "${jarPath}"
+                    ${nssmPath} install PowerBiApiService ${javaPath} -jar "${jarPath}"
 
                     REM Set working directory to folder of the jar
                     ${nssmPath} set PowerBiApiService AppDirectory "${jarPath.substring(0, jarPath.lastIndexOf('\\'))}"

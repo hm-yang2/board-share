@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         SPRING_ENV_FILE = 'api\\build\\libs\\.env'
+        REACT_ENV_FILE = 'power-bi-frontend\\.env'
         IIS_DEPLOY_DIR = 'C:\\inetpub\\wwwroot\\powerbi'
     }
 
@@ -88,14 +89,13 @@ pipeline {
             }
         }
 
-        stage('Cleanup .env') {
-            steps {
-                bat "if exist ${SPRING_ENV_FILE} del /f /q ${SPRING_ENV_FILE}"
-            }
-        }
-
         stage('Build React Frontend') {
             steps {
+                withCredentials([file(credentialsId: '55fad737-deb4-4e6d-9639-20f105556553', variable: 'ENV_FILE')]) {
+                    bat """
+                        copy /Y "%ENV_FILE%" "power-bi-frontend"
+                    """
+                }
                 dir('power-bi-frontend') {
                     bat 'npm ci'
                     bat 'npm run build'
@@ -114,6 +114,13 @@ pipeline {
                 // Example:
                 // sh 'scp api/target/app.jar user@your-server:/deploy/path/'
                 // sh 'scp -r frontend/build user@your-server:/deploy/path/frontend/'
+            }
+        }
+
+        stage('Cleanup .envs') {
+            steps {
+                bat "if exist ${SPRING_ENV_FILE} del /f /q ${SPRING_ENV_FILE}"
+                bat "if exist ${REACT_ENV_FILE} del /f /q ${REACT_ENV_FILE}"
             }
         }
     }

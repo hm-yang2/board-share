@@ -107,7 +107,8 @@ pipeline {
             steps {
                 dir ('power-bi-frontend') {
                     bat '''
-                        xcopy dist "C:\\Users\\SRVMTDDIGITS\\Documents\\PowerBi_frontend" /E
+                        echo 🚀 Deploy your artifacts here...
+                        xcopy dist "C:\\Users\\SRVMTDDIGITS\\Documents\\PowerBi_frontend" /E /Y
                     '''
                 }
                 // Example:

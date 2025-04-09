@@ -81,6 +81,10 @@ pipeline {
                         exit /b 1
                     )
 
+                    REM Stop and remove existing service if exists
+                    ${nssmPath} stop PowerBiApiService
+                    ${nssmPath} remove PowerBiApiService confirm
+                    
                     REM Install the new service
                     ${nssmPath} install PowerBiApiService ${javaPath} -jar "${jarPath}"
 

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SPRING_ENV_FILE = 'api\\.env'
+        SPRING_ENV_FILE = 'api\\build\\libs\\.env'
         IIS_DEPLOY_DIR = 'C:\\inetpub\\wwwroot\\powerbi'
     }
 
@@ -103,13 +103,18 @@ pipeline {
             }
         }
 
-        // stage('Deploy on IIS') {
-        //     steps {
-        //         echo '🚀 Deploy your artifacts here...'
-        //         // Example:
-        //         // sh 'scp api/target/app.jar user@your-server:/deploy/path/'
-        //         // sh 'scp -r frontend/build user@your-server:/deploy/path/frontend/'
-        //     }
-        // }
+        stage('Deploy on IIS') {
+            steps {
+                echo '🚀 Deploy your artifacts here...'
+                dir ('power-bi-frontend') {
+                    bat '''
+                        xcopy dist "C:\\Users\\SRVMTDDIGITS\\Documents\\PowerBi_frontend"
+                    '''
+                }
+                // Example:
+                // sh 'scp api/target/app.jar user@your-server:/deploy/path/'
+                // sh 'scp -r frontend/build user@your-server:/deploy/path/frontend/'
+            }
+        }
     }
 }

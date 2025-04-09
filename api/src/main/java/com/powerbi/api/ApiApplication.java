@@ -21,7 +21,6 @@ public class ApiApplication {
      */
 	public static void main(String[] args) {
 		Dotenv dotenv = Dotenv.load();  // Loads .env file
-		System.out.println("DB_URL from .env: " + dotenv.get("DB_URL"));
 		SpringApplication.run(ApiApplication.class, args);
 	}
 }

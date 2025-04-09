@@ -88,17 +88,22 @@ pipeline {
             }
         }
 
+        stage('Cleanup .env') {
+            steps {
+                bat "if exist ${SPRING_ENV_FILE} del /f /q ${SPRING_ENV_FILE}"
+            }
+        }
 
-        // stage('Build React Frontend') {
-        //     steps {
-        //         dir('frontend') {
-        //             sh 'npm ci'
-        //             sh 'npm run build'
-        //         }
-        //     }
-        // }
+        stage('Build React Frontend') {
+            steps {
+                dir('power-bi-frontend') {
+                    bat 'npm ci'
+                    bat 'npm run build'
+                }
+            }
+        }
 
-        // stage('Deploy') {
+        // stage('Deploy on IIS') {
         //     steps {
         //         echo '🚀 Deploy your artifacts here...'
         //         // Example:
@@ -106,11 +111,5 @@ pipeline {
         //         // sh 'scp -r frontend/build user@your-server:/deploy/path/frontend/'
         //     }
         // }
-
-        stage('Cleanup .env') {
-            steps {
-                bat "if exist ${SPRING_ENV_FILE} del /f /q ${SPRING_ENV_FILE}"
-            }
-        }
     }
 }

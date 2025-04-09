@@ -37,6 +37,27 @@ pipeline {
             }
         }
 
+        stage('Stop and remove Spring Boot API service') {
+            steps {
+                script {
+                    def nssmPath = 'C:\\Tools\\nssm\\nssm.exe'
+
+                    bat """
+                    IF EXIST "${nssmPath}" (
+                        echo NSSM found.
+                    ) ELSE (
+                        echo NSSM not found at ${nssmPath}. Please install NSSM or add a download step.
+                        exit /b 1
+                    )
+
+                    REM Stop and remove existing service if exists
+                    ${nssmPath} stop PowerBiApiService
+                    ${nssmPath} remove PowerBiApiService confirm
+                    """
+                }
+            }
+        }
+
         stage('Build Spring Boot') {
             steps {
                 dir('api') {
@@ -59,10 +80,6 @@ pipeline {
                         echo NSSM not found at ${nssmPath}. Please install NSSM or add a download step.
                         exit /b 1
                     )
-
-                    REM Stop and remove existing service if exists
-                    ${nssmPath} stop PowerBiApiService
-                    ${nssmPath} remove PowerBiApiService confirm
 
                     REM Install the new service
                     ${nssmPath} install PowerBiApiService ${javaPath} -jar "${jarPath}"

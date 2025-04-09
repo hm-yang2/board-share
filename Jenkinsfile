@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     def nssmPath = 'C:\\Tools\\nssm\\nssm.exe'
-                    def jarPath = 'C:\\jenkins\\workspace\\power-bi\\api\\build\\libs\\powerbi-api.jar' // or wherever Jenkins workspace is
+                    def jarPath = 'C:\\Users\\SRVMTDDIGITS\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\power-bi' // or wherever Jenkins workspace is
                     def javaPath = "java"
 
                     bat """

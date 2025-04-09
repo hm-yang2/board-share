@@ -32,7 +32,7 @@ pipeline {
                     )
                     REM Verify environment variables
                     echo %SERVER_PORT%
-                    echo DB_URL
+                    echo %DB_URL%
                 '''
             }
         }

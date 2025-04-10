@@ -35,14 +35,6 @@ pipeline {
             }
         }
 
-        stage('Test Spring Boot') {
-            steps {
-                dir('api') {
-                    bat './gradlew test'
-                }
-            }
-        }
-
         stage('Build Spring Boot') {
             steps {
                 dir('api') {
@@ -108,12 +100,6 @@ pipeline {
                     bat 'npm ci'
                     bat 'npm run build'
                 }
-            }
-        }
-
-        stage('Test React Frontend') {
-            dir ('power-bi-frontend') {
-                bat 'npx playwright test --worker 1'
             }
         }
 

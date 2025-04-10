@@ -34,7 +34,7 @@ pipeline {
                         IF %ERRORLEVEL% EQU 0 (
                             echo Stopping and removing service '${serviceName}'...
                             "${nssmPath}" stop "${serviceName}"
-                            "${nssmPath}" remove "${serviceName}"
+                            "${nssmPath}" remove "${serviceName}" confirm
                         )
                         """
                     }

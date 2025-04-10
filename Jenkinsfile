@@ -114,16 +114,6 @@ pipeline {
             }
         }
 
-        stage('Test React Frontend') {
-            steps {
-                dir('power-bi-frontend') {
-                    bat 'npx playwright install'
-                    bat 'npx playwright test --workers 5'
-                }
-            }
-        }
-
-
         stage('Move React distributin to IIS folder') {
             steps {
                 dir ('power-bi-frontend') {
@@ -138,6 +128,15 @@ pipeline {
             }
         }
 
+        stage('Test React Frontend') {
+            steps {
+                dir('power-bi-frontend') {
+                    bat 'npx playwright install'
+                    bat 'npx playwright test --workers 5'
+                }
+            }
+        }
+        
         stage('Cleanup .envs') {
             steps {
                 bat "if exist ${SPRING_ENV_FILE} del /f /q ${SPRING_ENV_FILE}"

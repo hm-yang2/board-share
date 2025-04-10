@@ -35,6 +35,14 @@ pipeline {
             }
         }
 
+        stage('Test Spring Boot') {
+            steps {
+                dir('api') {
+                    bat './gradlew test'
+                }
+            }
+        }
+
         stage('Build Spring Boot') {
             steps {
                 dir('api') {
@@ -57,7 +65,8 @@ pipeline {
             steps {
                 script {
                     def nssmPath = 'C:\\Tools\\nssm\\nssm.exe'
-                    def jarPath = 'C:\\Users\\SRVMTDDIGITS\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\power-bi\\api\\build\\libs\\api-1.0.0.jar' // or wherever Jenkins workspace is
+                    def jarPath = bat(script: 'for /f "delims=" %i in (\'dir /b api\\build\\libs\\api-*.jar\') do @echo %i', returnStdout: true).trim()
+                    jarPath = "${env.WORKSPACE}\\api\\build\\libs\\${jarPath}"
                     def javaPath = "java"
 
                     bat """
@@ -102,6 +111,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Test React Frontend') {
+            steps {
+                dir('power-bi-frontend') {
+                    bat 'npx playwright test --worker 1'
+                }
+            }
+        }
+
 
         stage('Move React distributin to IIS folder') {
             steps {

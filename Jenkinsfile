@@ -20,26 +20,24 @@ pipeline {
                     def nssmPath = 'C:\\Tools\\nssm\\nssm.exe'
                     def serviceName = 'PowerBiApiService'
 
-                    bat """
-                    IF EXIST "${nssmPath}" (
-                        echo NSSM found.
-                    ) ELSE (
-                        echo NSSM not found at ${nssmPath}. Please install NSSM or add a download step.
-                        exit /b 1
-                    )
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        bat """
+                        IF EXIST "${nssmPath}" (
+                            echo NSSM found.
+                        ) ELSE (
+                            echo NSSM not found at ${nssmPath}. Please install NSSM or add a download step.
+                            exit /b 1
+                        )
 
-                    REM Check if service exists
-                    sc query "${serviceName}" >nul 2>&1
-                    IF %ERRORLEVEL% EQU 0 (
-                        echo Stopping and removing service '${serviceName}'...
-                        "${nssmPath}" stop "${serviceName}" >nul 2>&1
-                        "${nssmPath}" remove "${serviceName}" confirm >nul 2>&1
-                    ) ELSE IF %ERRORLEVEL% NEQ 1060 (
-                        echo Error occurred while checking service status. ERRORLEVEL: %ERRORLEVEL%
-                    ) ELSE (
-                        echo Service '${serviceName}' not found. Skipping stop/remove.
-                    )
-                    """
+                        REM Check if service exists
+                        sc query "${serviceName}"
+                        IF %ERRORLEVEL% EQU 0 (
+                            echo Stopping and removing service '${serviceName}'...
+                            "${nssmPath}" stop "${serviceName}"
+                            "${nssmPath}" remove "${serviceName}"
+                        )
+                        """
+                    }
                 }
             }
         }
@@ -119,7 +117,8 @@ pipeline {
         stage('Test React Frontend') {
             steps {
                 dir('power-bi-frontend') {
-                    bat 'npx playwright test --workers 1'
+                    bat 'npx playwright install'
+                    bat 'npx playwright test --workers 5'
                 }
             }
         }

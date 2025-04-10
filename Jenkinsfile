@@ -18,6 +18,7 @@ pipeline {
             steps {
                 script {
                     def nssmPath = 'C:\\Tools\\nssm\\nssm.exe'
+                    def serviceName = 'PowerBiApiService'
 
                     bat """
                     IF EXIST "${nssmPath}" (
@@ -27,14 +28,19 @@ pipeline {
                         exit /b 1
                     )
 
-                    REM Stop and remove existing service if exists
-                    ${nssmPath} stop PowerBiApiService
-                    ${nssmPath} remove PowerBiApiService confirm
+                    REM Check if service exists
+                    sc query "${serviceName}" >nul 2>&1
+                    IF %ERRORLEVEL% EQU 0 (
+                        echo Stopping and removing service '${serviceName}'...
+                        "${nssmPath}" stop "${serviceName}"
+                        "${nssmPath}" remove "${serviceName}" confirm
+                    ) ELSE (
+                        echo Service '${serviceName}' not found. Skipping stop/remove.
+                    )
                     """
                 }
             }
         }
-
         stage('Test Spring Boot') {
             steps {
                 dir('api') {

@@ -65,8 +65,7 @@ pipeline {
             steps {
                 script {
                     def nssmPath = 'C:\\Tools\\nssm\\nssm.exe'
-                    def jarPath = bat(script: 'for /f "delims=" %i in (\'dir /b api\\build\\libs\\api-*.jar\') do @echo %i', returnStdout: true).trim()
-                    jarPath = "${env.WORKSPACE}\\api\\build\\libs\\${jarPath}"
+                    def jarPath = 'C:\\Users\\SRVMTDDIGITS\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\power-bi\\api\\build\\libs\\api-1.0.0.jar' // or wherever Jenkins workspace is
                     def javaPath = "java"
 
                     bat """

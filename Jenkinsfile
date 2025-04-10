@@ -34,6 +34,9 @@ pipeline {
                         echo Stopping and removing service '${serviceName}'...
                         "${nssmPath}" stop "${serviceName}"
                         "${nssmPath}" remove "${serviceName}" confirm
+                    ) ELSE IF %ERRORLEVEL% NEQ 1060 (
+                        echo Error occurred while checking service status. ERRORLEVEL: %ERRORLEVEL%
+                        exit /b %ERRORLEVEL%
                     ) ELSE (
                         echo Service '${serviceName}' not found. Skipping stop/remove.
                     )
@@ -41,6 +44,7 @@ pipeline {
                 }
             }
         }
+
         stage('Test Spring Boot') {
             steps {
                 dir('api') {

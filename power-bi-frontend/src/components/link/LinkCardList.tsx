@@ -4,8 +4,13 @@ import { ChannelLink } from "../../models/ChannelLink";
 import LinkCard from "./LinkCard";
 import { Link } from "../../models/Link";
 
+/**
+ * Props for the LinkCardList component.
+ */
 interface LinkCardListProps {
+  /** The list of links or channel links to display. */
   items: (Link | ChannelLink)[];
+  /** The list of channels (optional). */
   channels?: Channel[];
 }
 

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.powerbi.api"},{"l":"com.powerbi.api.config"},{"l":"com.powerbi.api.controller"},{"l":"com.powerbi.api.dto"},{"l":"com.powerbi.api.model"},{"l":"com.powerbi.api.repository"},{"l":"com.powerbi.api.service"}];updateSearchResults();

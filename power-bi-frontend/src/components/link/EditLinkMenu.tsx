@@ -35,9 +35,15 @@ import { Channel } from "../../models/Channel";
 import { ChannelLinkDTO } from "../../models/ChannelLinkDTO";
 import CloseIcon from "@mui/icons-material/Close";
 
+/**
+ * Props for the EditLinkMenu component.
+ */
 interface EditLinkMenuProps {
+  /** The link object to edit or delete. */
   link: Link;
+  /** The channel link object (optional). */
   channelLink?: ChannelLink;
+  /** The list of channels (optional). */
   channels?: Channel[];
 }
 

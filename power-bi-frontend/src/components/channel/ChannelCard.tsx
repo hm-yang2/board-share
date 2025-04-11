@@ -11,8 +11,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Channel, ChannelRole } from "../../models/Channel";
 
+/**
+ * Props for the ChannelCard component.
+ */
 interface ChannelCardProps {
+  /** The channel object to display. */
   channel: Channel;
+  /** The role of the current user in the channel (optional). */
   role?: ChannelRole["role"];
 }
 

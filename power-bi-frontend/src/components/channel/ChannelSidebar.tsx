@@ -20,9 +20,15 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AddIcon from "@mui/icons-material/Add";
 
+/**
+ * Props for the ChannelSidebar component.
+ */
 interface SidebarProps {
+  /** The channel object containing details like name and visibility. */
   channel: Channel;
+  /** List of links associated with the channel. */
   channelLinks: ChannelLink[];
+  /** The role of the current user in the channel. */
   role: ChannelRole["role"];
 }
 

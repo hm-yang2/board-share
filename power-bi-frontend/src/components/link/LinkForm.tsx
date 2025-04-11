@@ -3,12 +3,20 @@ import { Channel } from "../../models/Channel";
 import { Box, Button, Input, Stack, Tooltip, Typography } from "@mui/joy";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
+/**
+ * Props for the LinkForm component.
+ */
 interface LinkFormProps {
-  setTitle: any;
-  setLink: any;
-  setDescription?: any;
+  /** Callback function to set the title. */
+  setTitle: (title: string) => void;
+  /** Callback function to set the link URL. */
+  setLink: (link: string) => void;
+  /** Callback function to set the description (optional). */
+  setDescription?: (description: string) => void;
+  /** The selected channel (optional). */
   channel?: Channel | null;
-  handlePost: any;
+  /** Callback function to handle form submission. */
+  handlePost: () => void;
 }
 
 /**

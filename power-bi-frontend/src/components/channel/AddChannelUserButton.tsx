@@ -22,11 +22,19 @@ import { AddChannelAdmin } from "../../api/ChannelAdminCalls";
 import { AddChannelOwner } from "../../api/ChannelOwnerCalls";
 import { ChannelRole } from "../../models/Channel";
 
+/**
+ * Props for the AddChannelUserButton component.
+ */
 interface AddUserButtonProps {
+  /** The role of the current user in the channel. */
   userRole: ChannelRole["role"];
+  /** The ID of the channel. */
   channelId: number;
+  /** List of current channel members. */
   channelMembers: ChannelMember[];
+  /** List of current channel admins. */
   channelAdmins: ChannelAdmin[];
+  /** List of current channel owners. */
   channelOwners: ChannelOwner[];
 }
 

@@ -4,8 +4,13 @@ import { Link } from "../../models/Link";
 import SmallLinkCard from "./SmallLinkCard";
 import { Channel } from "../../models/Channel";
 
+/**
+ * Props for the SmallLinkCardList component.
+ */
 interface SmallLinkCardListProps {
+  /** The list of links or channel links to display. */
   items: (Link | ChannelLink)[];
+  /** The list of channels (optional). */
   channels?: Channel[];
 }
 

@@ -2,6 +2,7 @@ import { Box, Typography, Stack, Chip } from "@mui/joy";
 import { Channel } from "../../models/Channel";
 
 interface ChannelBannerProps {
+  /** The channel object containing details like name, description, and visibility. */
   channel: Channel;
 }
 

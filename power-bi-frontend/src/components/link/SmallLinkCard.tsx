@@ -1,14 +1,22 @@
 import { Card, Typography, Stack, Link as JoyLink } from "@mui/joy";
 import { Link } from "../../models/Link";
-import LinkEditMenu from "./LinkEditMenu";
+import LinkEditMenu from "./EditLinkMenu";
 import { ChannelLink } from "../../models/ChannelLink";
 import { Channel } from "../../models/Channel";
 
+/**
+ * Props for the SmallLinkCard component.
+ */
 interface SmallLinkCardProps {
+  /** The link object to display. */
   link: Link;
+  /** The channel link object (optional). */
   channelLink?: ChannelLink;
+  /** The width of the card (optional). */
   width?: string;
+  /** The height of the card (optional). */
   height?: string;
+  /** The list of channels (optional). */
   channels?: Channel[];
 }
 

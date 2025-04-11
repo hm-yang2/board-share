@@ -23,5 +23,5 @@ A React-based frontend application for managing users, channels, and links, buil
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/hm-yang2/power-bi-frontend.git
+   git clone https://github.com/hm-yang2/power-bi.git
    cd power-bi-frontend

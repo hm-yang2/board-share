@@ -13,9 +13,15 @@ import { User } from "../../models/User";
 import { DeleteUser } from "../../api/UserCalls";
 import { SuperUser } from "../../models/SuperUser";
 
+/**
+ * Props for the ChannelUserCard component.
+ */
 interface ChannelUserCardProps {
+  /** The user entity (ChannelOwner, ChannelAdmin, ChannelMember, SuperUser, or User). */
   userEntity: ChannelOwner | ChannelAdmin | ChannelMember | SuperUser | User;
+  /** The role of the user in the channel (optional). */
   role?: ChannelRole["role"];
+  /** Custom delete function for removing the user (optional). */
   customDelete?: () => void;
 }
 

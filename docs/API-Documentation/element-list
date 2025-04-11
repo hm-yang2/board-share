@@ -1,0 +1,7 @@
+com.powerbi.api
+com.powerbi.api.config
+com.powerbi.api.controller
+com.powerbi.api.dto
+com.powerbi.api.model
+com.powerbi.api.repository
+com.powerbi.api.service

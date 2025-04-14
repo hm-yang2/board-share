@@ -33,24 +33,18 @@ function LinkCardList({ items }: LinkCardListProps) {
           const channelLink = item as ChannelLink;
           const linkPath = `/channel/${channelLink.channel.id}/${channelLink.id}`;
           return (
-            <JoyLink key={channelLink.id} href={linkPath} underline="hover">
-              <LinkCard
-                link={channelLink.link}
-                channelLink={channelLink}
-                width="80vw"
-                height="70vh"
-              />
-            </JoyLink>
+            <LinkCard
+              link={channelLink.link}
+              channelLink={channelLink}
+              width="80vw"
+              height="70vh"
+            />
           );
         } else {
           // Render Link
           const link = item as Link;
           const linkPath = `/link/${link.id}`;
-          return (
-            <JoyLink key={link.id} href={linkPath} underline="hover">
-              <LinkCard link={link} width="70vw" height="10vh" />
-            </JoyLink>
-          );
+          return <LinkCard link={link} width="70vw" height="10vh" />;
         }
       })}
     </Stack>

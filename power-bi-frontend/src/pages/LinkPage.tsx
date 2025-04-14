@@ -29,7 +29,7 @@ function LinkPage() {
         });
       GetChannels().then((channels) => {
         setAvaliableChannels(channels);
-      })
+      });
     }
   }, [id]); // Fetch link when the linkId in the URL changes
 
@@ -48,7 +48,12 @@ function LinkPage() {
       flexDirection={"column"}
       alignItems={"center"}
     >
-      <LinkCard link={link} channels={avaliableChannels} width="100vw" height="89vh" />
+      <LinkCard
+        link={link}
+        channels={avaliableChannels}
+        width="100vw"
+        height="89vh"
+      />
     </Box>
   );
 }

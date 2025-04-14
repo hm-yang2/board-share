@@ -125,7 +125,7 @@ function EditLinkMenu({ link, channelLink, channels }: EditLinkMenuProps) {
         });
       } else {
         DeleteLink(link.id).then((success) => {
-          console.log(link)
+          console.log(link);
           if (success === false) {
             setError(true);
             setErrorMessage("Failed to delete post");

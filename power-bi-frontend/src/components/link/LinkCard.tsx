@@ -1,10 +1,18 @@
-import { Box, Card, IconButton, Stack, Typography } from "@mui/joy";
+import {
+  Box,
+  Card,
+  Link as JoyLink,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/joy";
 import { ChannelLink } from "../../models/ChannelLink";
 import { Link } from "../../models/Link";
 import LinkEditMenu from "./EditLinkMenu";
 import { useEffect, useRef } from "react";
 import { FullscreenOutlined } from "@mui/icons-material";
 import { Channel } from "../../models/Channel";
+import { useLocation } from "react-router-dom";
 
 /**
  * Props for the LinkCard component.
@@ -31,8 +39,20 @@ interface LinkCardProps {
  * @param height The height of the card (optional).
  * @returns The LinkCard component.
  */
-function LinkCard({ link, channelLink, width, height, channels }: LinkCardProps) {
+function LinkCard({
+  link,
+  channelLink,
+  width,
+  height,
+  channels,
+}: LinkCardProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Determine link path
+  const linkPath = channelLink
+    ? `/channel/${channelLink.channel.id}/${channelLink.id}`
+    : `/link/${link.id}`;
+  const location = useLocation();
 
   // Parsing link data
   const content = channelLink == undefined ? link : channelLink;
@@ -83,15 +103,26 @@ function LinkCard({ link, channelLink, width, height, channels }: LinkCardProps)
           justifyContent={"space-between"}
           height={"5.5%"}
         >
-          <Stack alignItems={"flex-start"}>
-            <Typography level="h4">{content.title}</Typography>
-            <Typography level="body-sm">
-              {date + ". By " + link.user.email}
-            </Typography>
-          </Stack>
+          <JoyLink
+            key={link.id}
+            href={linkPath}
+            underline="hover"
+            disabled={location.pathname == linkPath}
+          >
+            <Stack alignItems={"flex-start"}>
+              <Typography level="h4">{content.title}</Typography>
+              <Typography level="body-sm">
+                {date + ". By " + link.user.email}
+              </Typography>
+            </Stack>
+          </JoyLink>
           <Stack direction={"row"}>
             <EnterFullScreenButton handleFullScreen={enterFullScreen} />
-            <LinkEditMenu link={link} channels={channels} channelLink={channelLink} />
+            <LinkEditMenu
+              link={link}
+              channels={channels}
+              channelLink={channelLink}
+            />
           </Stack>
         </Stack>
         <iframe

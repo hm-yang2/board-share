@@ -1,4 +1,4 @@
-import { Divider, Link as JoyLink, Stack } from "@mui/joy";
+import { Divider, Stack } from "@mui/joy";
 import { Channel } from "../../models/Channel";
 import { ChannelLink } from "../../models/ChannelLink";
 import LinkCard from "./LinkCard";
@@ -31,7 +31,6 @@ function LinkCardList({ items }: LinkCardListProps) {
         if ("channel" in item) {
           // Render ChannelLink
           const channelLink = item as ChannelLink;
-          const linkPath = `/channel/${channelLink.channel.id}/${channelLink.id}`;
           return (
             <LinkCard
               link={channelLink.link}
@@ -43,7 +42,6 @@ function LinkCardList({ items }: LinkCardListProps) {
         } else {
           // Render Link
           const link = item as Link;
-          const linkPath = `/link/${link.id}`;
           return <LinkCard link={link} width="70vw" height="10vh" />;
         }
       })}

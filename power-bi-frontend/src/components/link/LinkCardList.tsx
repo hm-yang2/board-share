@@ -1,4 +1,4 @@
-import { Box, Divider, Stack } from "@mui/joy";
+import { Box, Stack } from "@mui/joy";
 import { Channel } from "../../models/Channel";
 import { ChannelLink } from "../../models/ChannelLink";
 import LinkCard from "./LinkCard";

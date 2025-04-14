@@ -1,4 +1,4 @@
-import { Divider, Stack } from "@mui/joy";
+import { Box, Divider, Stack } from "@mui/joy";
 import { Channel } from "../../models/Channel";
 import { ChannelLink } from "../../models/ChannelLink";
 import LinkCard from "./LinkCard";
@@ -26,23 +26,29 @@ function LinkCardList({ items }: LinkCardListProps) {
   }
 
   return (
-    <Stack gap={5} divider={<Divider />}>
+    <Stack gap={7} >
       {items.map((item) => {
         if ("channel" in item) {
           // Render ChannelLink
           const channelLink = item as ChannelLink;
           return (
-            <LinkCard
-              link={channelLink.link}
-              channelLink={channelLink}
-              width="80vw"
-              height="70vh"
-            />
+            <Box>
+              <LinkCard
+                link={channelLink.link}
+                channelLink={channelLink}
+                width="80vw"
+                height="70vh"
+              />
+            </Box>
           );
         } else {
           // Render Link
           const link = item as Link;
-          return <LinkCard link={link} width="70vw" height="10vh" />;
+          return (
+            <Box>
+              <LinkCard link={link} width="70vw" height="10vh" />
+            </Box>
+          );
         }
       })}
     </Stack>

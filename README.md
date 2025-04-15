@@ -65,3 +65,6 @@ This repository contains a full-stack application for managing and sharing dashb
 
 ```bash
 git clone https://github.com/hm-yang2/power-bi.git
+```
+## Code Documentation
+https://hm-yang2.github.io/power-bi/ 
